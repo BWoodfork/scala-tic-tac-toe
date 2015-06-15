@@ -7,12 +7,50 @@ class Board(size: Int) {
 
   def spaces() = boardState
 
-  def space_filled_?(spot: Int) = {
-    false
+  def spaceFilled_?(spot: Int) = {
+    boardState(spot) != "-"
   }
   
-  def fill_space(index: Int, token: String) = {
+  def fillSpace(index: Int, token: String) = {
     boardState.update(index, token)
     boardState
+  }
+  
+  def oddNumberEmptySpaces_? = {
+    boardState.count(_ == "-") % 2 != 0
+  }
+  
+  def spotEmpty_?(index: Int, token: String) = {
+    boardState(index) == "-"
+  }
+
+  def rowIndices() = {
+    boardState.indices.grouped(size).toArray
+  }
+  
+  def columnIndices() = {
+    val groupedIndices = indices().grouped(size)
+
+    transpose_indices(groupedIndices.toArray)
+  }
+
+  def getAllDiagonalIndices = 
+    Array(leftDiagonalIndices(), rightDiagonalIndices())
+
+  private def leftDiagonalIndices() = {
+    indices().groupBy(_ % (size + 1) == 0)(true)
+  }
+
+  private def rightDiagonalIndices() = {
+    val indicesWithoutLast = indices().init
+    indicesWithoutLast.groupBy(_ % (size - 1) == 0)(true).tail
+  }
+
+  private def indices() = {
+    boardState.indices.toArray
+  }
+  
+  private def transpose_indices(collection: Array[Array[Int]]) = {
+    collection.transpose
   }
 }
