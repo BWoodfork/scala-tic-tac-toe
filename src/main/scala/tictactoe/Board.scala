@@ -3,6 +3,7 @@ package tictactoe
 import scala.collection.mutable.ArrayBuffer
 
 class Board(size: Int) {
+
   val boardState = ArrayBuffer.fill(size * size)("-")
 
   def spaces() = boardState
@@ -34,8 +35,12 @@ class Board(size: Int) {
     transpose_indices(groupedIndices.toArray)
   }
 
-  def getAllDiagonalIndices = 
+  def getAllDiagonalIndices =
     Array(leftDiagonalIndices(), rightDiagonalIndices())
+
+  def allSpacesFilled_?() = {
+    spaces().forall(_ != "-")
+  }
 
   private def leftDiagonalIndices() = {
     indices().groupBy(_ % (size + 1) == 0)(true)

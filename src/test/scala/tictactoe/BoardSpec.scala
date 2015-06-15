@@ -5,7 +5,7 @@ import org.scalatest.{OneInstancePerTest, Matchers, FunSpec}
 class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
 
   describe("Board") {
-    describe("3x3 board") {
+    describe("3x3 grid") {
       val board = new Board(3)
       
       it("has a 3x3 grid when given an a size of 3") {
@@ -74,9 +74,36 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
         board.getAllDiagonalIndices should be (Array(Array(0, 4, 8),
                                                      Array(2, 4, 6)))
       }
+      
+      it("returns true if all spaces are filled with tokens") {
+        board.fillSpace(0, "X")
+        board.fillSpace(1, "X")
+        board.fillSpace(2, "X")
+        board.fillSpace(3, "X")
+        board.fillSpace(4, "X")
+        board.fillSpace(5, "X")
+        board.fillSpace(6, "X")
+        board.fillSpace(7, "X")
+        board.fillSpace(8, "X")
+        
+        assert(board.allSpacesFilled_?())
+      }
+      
+      it("returns false if all spaces are not filled with tokens") {
+        board.fillSpace(1, "X")
+        board.fillSpace(2, "X")
+        board.fillSpace(3, "X")
+        board.fillSpace(4, "X")
+        board.fillSpace(5, "X")
+        board.fillSpace(6, "X")
+        board.fillSpace(7, "X")
+        board.fillSpace(8, "X")
+
+        assert(!board.allSpacesFilled_?())
+      }
     }
 
-    describe("4x4 board") {
+    describe("4x4 grid") {
       val board = new Board(4)
       
       it("has a 4x4 grid when given an a size of 4") {
