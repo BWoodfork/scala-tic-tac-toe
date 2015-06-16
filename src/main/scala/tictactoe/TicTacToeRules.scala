@@ -28,17 +28,17 @@ class TicTacToeRules(board: Board, tokens: Array[String]) {
 
   private def rowWinner_?(token: String) = {
     board.rowIndices()
-      .exists(rowIndex => rowIndex.forall(index => (board.spaces()(index) == token) ||
-      (board.spaces()(index) == token)))
+      .exists(rowIndex => rowIndex.forall(index => (board.spaces(index) == token) ||
+      (board.spaces(index) == token)))
   }
 
   private def columnWinner_?(token: String) = {
     board.columnIndices()
-      .exists(columnIndex => columnIndex.forall(index => board.spaces()(index) == token))
+      .exists(columnIndex => columnIndex.forall(index => board.spaces(index) == token))
   }
 
   private def diagonalWinner_?(token: String) = {
     board.getAllDiagonalIndices
-      .exists(diagonalIndex => diagonalIndex.forall(index => board.spaces()(index) == token))
+      .exists(diagonalIndex => diagonalIndex.forall(index => board.spaces(index) == token))
   }
 }

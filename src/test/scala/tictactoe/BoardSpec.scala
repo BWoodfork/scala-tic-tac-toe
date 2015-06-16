@@ -10,7 +10,7 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
       
       it("has a 3x3 grid when given an a size of 3") {
 
-        assert(board.spaces().size == 9)
+        assert(board.spaces.size == 9)
       }
 
       it("fills a space, given an 'X' token and a 0 index") {
@@ -108,7 +108,7 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
       
       it("has a 4x4 grid when given an a size of 4") {
         
-        assert(board.spaces().size == 16)
+        assert(board.spaces.size == 16)
       }
 
       it("returns a collection of indices for all vertical columns on 4x4 board") {

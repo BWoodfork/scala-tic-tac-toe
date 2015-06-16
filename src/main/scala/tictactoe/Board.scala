@@ -3,10 +3,9 @@ package tictactoe
 import scala.collection.mutable.ArrayBuffer
 
 class Board(size: Int) {
-
   val boardState = ArrayBuffer.fill(size * size)("-")
 
-  def spaces() = boardState
+  def spaces = boardState
 
   def spaceFilled_?(spot: Int) = {
     boardState(spot) != "-"
@@ -39,7 +38,7 @@ class Board(size: Int) {
     Array(leftDiagonalIndices(), rightDiagonalIndices())
 
   def allSpacesFilled_?() = {
-    spaces().forall(_ != "-")
+    spaces.forall(_ != "-")
   }
 
   private def leftDiagonalIndices() = {
