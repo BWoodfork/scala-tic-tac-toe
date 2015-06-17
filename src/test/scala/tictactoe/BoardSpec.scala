@@ -58,21 +58,15 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
         assert(!board.spotEmpty_?(0, "X"))
       }
 
-      it("returns a collection of indices for all horizontal rows on 3x3 board") {
-        board.rowIndices() should be (Array(Array(0, 1, 2),
-                                            Array(3, 4, 5),
-                                            Array(6, 7, 8)))
-      }
-
-      it("returns a collection of indices for all horizontal columns on board") {
-        board.columnIndices() should be (Array(Array(0, 3, 6),
-                                               Array(1, 4, 7),
-                                               Array(2, 5, 8)))
-      }
-
-      it("returns collection of both diagonal indices") {
-        board.getAllDiagonalIndices should be (Array(Array(0, 4, 8),
-                                                     Array(2, 4, 6)))
+      it("returns a collection of row, horizontal and diagonal") {
+        board.allWinningIndexCombinations() should be (Array(Array(0, 1, 2),
+                                                             Array(3, 4, 5),
+                                                             Array(6, 7, 8),
+                                                             Array(0, 3, 6),
+                                                             Array(1, 4, 7),
+                                                             Array(2, 5, 8),
+                                                             Array(0, 4, 8),
+                                                             Array(2, 4, 6)))
       }
       
       it("returns true if all spaces are filled with tokens") {
@@ -107,27 +101,20 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
       val board = new Board(4)
       
       it("has a 4x4 grid when given an a size of 4") {
-        
         assert(board.spaces.size == 16)
       }
 
-      it("returns a collection of indices for all vertical columns on 4x4 board") {
-        board.rowIndices() should be (Array(Array(0, 1, 2, 3),
-                                            Array(4, 5, 6, 7),
-                                            Array(8, 9, 10, 11),
-                                            Array(12, 13, 14, 15)))
-      }
-
-      it("returns collection of both diagonal indices on 4x4 board") {
-        board.getAllDiagonalIndices should be (Array(Array(0, 5, 10, 15),
-                                                     Array(3, 6, 9, 12)))
-      }
-
-      it("returns a collection of indices for all horizontal columns on 4x4 board") {
-        board.columnIndices() should be (Array(Array(0, 4, 8, 12),
-                                               Array(1, 5, 9, 13),
-                                               Array(2, 6, 10, 14),
-                                               Array(3, 7, 11, 15)))
+      it("returns a collection of row, horizontal and diagonal on 4x4 board") {
+        board.allWinningIndexCombinations() should be (Array( Array(0, 1, 2, 3),
+                                                              Array(4, 5, 6, 7),
+                                                              Array(8, 9, 10, 11),
+                                                              Array(12, 13, 14, 15),
+                                                              Array(0, 4, 8, 12),
+                                                              Array(1, 5, 9, 13),
+                                                              Array(2, 6, 10, 14),
+                                                              Array(3, 7, 11, 15),
+                                                              Array(0, 5, 10, 15), 
+                                                              Array(3, 6, 9, 12)))
       }
     }
   }

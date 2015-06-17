@@ -3,6 +3,7 @@ package tictactoe
 import scala.collection.mutable.ArrayBuffer
 
 class Board(size: Int) {
+
   val boardState = ArrayBuffer.fill(size * size)("-")
 
   def spaces = boardState
@@ -17,30 +18,34 @@ class Board(size: Int) {
   }
   
   def oddNumberEmptySpaces_? = {
-    boardState.count(_ == "-") % 2 != 0
+    spaces.count(_ == "-") % 2 != 0
   }
   
   def spotEmpty_?(index: Int, token: String) = {
-    boardState(index) == "-"
+    spaces(index) == "-"
   }
 
-  def rowIndices() = {
-    boardState.indices.grouped(size).toArray
+  def allWinningIndexCombinations() = {
+    rowIndices() ++ columnIndices() ++ leftAndRightDiagonalIndices
+  }
+
+  def allSpacesFilled_?() = {
+    spaces.forall(_ != "-")
   }
   
-  def columnIndices() = {
+  private def rowIndices() = {
+    spaces.indices.toArray.grouped(size).toArray
+  }
+  
+  private def columnIndices() = {
     val groupedIndices = indices().grouped(size)
 
     transpose_indices(groupedIndices.toArray)
   }
 
-  def getAllDiagonalIndices =
+  private def leftAndRightDiagonalIndices =
     Array(leftDiagonalIndices(), rightDiagonalIndices())
-
-  def allSpacesFilled_?() = {
-    spaces.forall(_ != "-")
-  }
-
+  
   private def leftDiagonalIndices() = {
     indices().groupBy(_ % (size + 1) == 0)(true)
   }
@@ -51,7 +56,7 @@ class Board(size: Int) {
   }
 
   private def indices() = {
-    boardState.indices.toArray
+    spaces.indices.toArray
   }
   
   private def transpose_indices(collection: Array[Array[Int]]) = {
