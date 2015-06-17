@@ -113,7 +113,7 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
                                                               Array(1, 5, 9, 13),
                                                               Array(2, 6, 10, 14),
                                                               Array(3, 7, 11, 15),
-                                                              Array(0, 5, 10, 15), 
+                                                              Array(0, 5, 10, 15),
                                                               Array(3, 6, 9, 12)))
       }
     }

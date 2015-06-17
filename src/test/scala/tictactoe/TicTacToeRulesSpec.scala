@@ -3,196 +3,202 @@ package tictactoe
 import org.scalatest.{OneInstancePerTest, FunSpec, Matchers}
 
 class TicTacToeRulesSpec extends FunSpec with OneInstancePerTest with Matchers {
-  val board = new Board(3)
+  val dataStructure = Array[String]("-","-","-","-","-","-","-","-","-")
   val tokens = Array[String]("X", "O")
-  val rules = new TicTacToeRules(board, tokens)
+  val winningCombos = 
+   Array(Array(0, 1, 2),
+     Array(3, 4, 5),
+     Array(6, 7, 8),
+     Array(0, 3, 6),
+     Array(1, 4, 7),
+     Array(2, 5, 8),
+     Array(0, 4, 8),
+     Array(2, 4, 6))
+  
+  val rules = new TicTacToeRules(dataStructure, tokens, winningCombos)
 
   describe("TicTacToeRules") {
     it("returns first token when board count is odd") {
+      val dataStructure = Array("-", "-", "-",
+                                "-", "-", "-",
+                                "-", "-", "-")
       
-      assert(rules.currentTurn_?() == "X")
+      assert(rules.currentTurn_?(dataStructure) == "X")
     }
 
     it("returns second token when board count is even") {
-      board.fillSpace(0, "X")
-
-      assert(rules.currentTurn_?() == "O")
+      val dataStructure = Array("X", "-", "-",
+                                "-", "-", "-",
+                                "-", "-", "-")
+      
+      assert(rules.currentTurn_?(dataStructure) == "O")
     }
     
     it("returns true if a move on a board is valid") {
+      val dataStructure = Array("-")
+      assert(rules.validMove_?(0, "X", dataStructure))
+    }
 
-      assert(rules.validMove_?(0, "X"))
-    } 
-    
     it("returns false if a move on a board is not valid") {
-      board.fillSpace(0, "X")
+      val dataStructure = Array("X")
+      assert(!rules.validMove_?(0, "X", dataStructure))
+    }
+    
+    it("returns true if all spaces filled with a token") {
+      val dataStructure = Array("X", "X", "O")
+
+      assert(rules.allSpacesFilled_?(dataStructure))
+    }
+
+    it("returns false if spaces are empty") {
+      val dataStructure = Array("-", "-", "-")
+
+      assert(!rules.allSpacesFilled_?(dataStructure))
+    }
+    
+    it("returns true if 3 elements in collection are alike") {
+      val dataStructure = Array("X", "X", "X")
       
-      assert(!rules.validMove_?(0, "X"))
+      assert(rules.winningCombination_?(dataStructure))
     }
     
-    it("returns true if first row win for 'X' token") {
-      board.fillSpace(0, "X")
-      board.fillSpace(1, "X")
-      board.fillSpace(2, "X")
+    it("returns false if elements are blank spaces") {
+      val dataStructure = Array("-", "-", "-")
       
-      assert(rules.gameWinner_?("X"))
+      assert(!rules.winningCombination_?(dataStructure))
     }
     
-    it("returns true if first row win for 'O' token") {
-      board.fillSpace(0, "O")
-      board.fillSpace(1, "O")
-      board.fillSpace(2, "O")
+    it("returns true if elements are 'O'") {
+      val dataStructure = Array("O", "O", "O")
 
-      assert(rules.gameWinner_?("O"))
+      assert(rules.winningCombination_?(dataStructure))
     }
-
-    it("returns true if second row win for 'O' token") {
-      board.fillSpace(3, "O")
-      board.fillSpace(4, "O")
-      board.fillSpace(5, "O")
-
-      assert(rules.gameWinner_?("O"))
-    }
-    
-    it("returns false if no row winner") {
-      board.fillSpace(0, "X")
-      board.fillSpace(1, "X")
-
-      assert(!rules.gameWinner_?("X"))
-    }
-    
-    it("returns true if column win for 'X' token") {
-      board.fillSpace(0, "O")
-      board.fillSpace(3, "O")
-      board.fillSpace(6, "O")
+   
+    it("returns elements on board, given list of indices") {
+      val dataStructure = Array("O", "X", "X",
+                                "-", "-", "-",
+                                "-", "X", "-")
       
-      assert(rules.gameWinner_?("O"))
-    }
-    
-    it("returns false if no column win") {
-      board.fillSpace(0, "O")
-      board.fillSpace(3, "O")
-      board.fillSpace(6, "X")
-
-      assert(!rules.gameWinner_?("O"))
-    }
-    
-    it("returns true if diagonal win for 'X' token") {
-      board.fillSpace(0, "X")
-      board.fillSpace(4, "X")
-      board.fillSpace(8, "X")
+      val indices = Array(0, 1, 2)
       
-      assert(rules.gameWinner_?("X"))
+      rules.getComboSet(indices, dataStructure) should be (Array("O", "X", "X"))
     }
     
-    it("returns false if not diagonal win") {
-      board.fillSpace(0, "O")
-      board.fillSpace(4, "X")
-      board.fillSpace(8, "X")
+    it("returns elements on board, given 3,4,5 indices") {
+      val dataStructure = Array("O", "X", "X",
+                                "-", "O", "-",
+                                "-", "X", "-")
+
+      val indices = Array(3, 4, 5)
       
-      assert(!rules.gameWinner_?("O"))
+      rules.getComboSet(indices, dataStructure) should be (Array("-", "O", "-"))
     }
     
-    it("returns true if a row win for 'X'") {
-      board.fillSpace(0, "X")
-      board.fillSpace(1, "X")
-      board.fillSpace(2, "X")
+    it("returns elements on a board, given multiple collections of indices ") {
+      val dataStructure = Array("O", "X", "X",
+                                "-", "O", "-",
+                                "-", "X", "-")
 
-      assert(rules.gameWinner_?("X"))
-    }
-    
-    it("returns false if not row win") {
-      board.fillSpace(0, "O")
-      board.fillSpace(1, "X")
-      board.fillSpace(2, "X")
-
-      assert(!rules.gameWinner_?("O"))
-    }
-    
-    it("returns the winning token when 'X'") {
-      board.fillSpace(0, "X")
-      board.fillSpace(1, "X")
-      board.fillSpace(2, "X")
-
-      assert(rules.winningToken("X") == "X")
-    }
-    
-    it("returns the winning token when 'O'") {
-      board.fillSpace(0, "O")
-      board.fillSpace(1, "O")
-      board.fillSpace(2, "O")
-
-      assert(rules.winningToken("O") == "O")
-    }
-    
-    it("returns null when there is no winning token") {
-      board.fillSpace(0, "O")
-      board.fillSpace(1, "O")
-      board.fillSpace(2, "X")
-
-      assert(rules.winningToken("O") == null)
-    }
-
-    it("returns true if tie game") {
-      board.fillSpace(0, "X")
-      board.fillSpace(1, "O")
-      board.fillSpace(2, "X")
-      board.fillSpace(3, "X")
-      board.fillSpace(4, "O")
-      board.fillSpace(5, "O")
-      board.fillSpace(6, "O")
-      board.fillSpace(7, "X")
-      board.fillSpace(8, "X")
-
-      assert(rules.tieGame_?("X"))
-    }
-
-    it("returns false if not tie game") {
-      board.fillSpace(0, "O")
-      board.fillSpace(1, "X")
-      board.fillSpace(2, "X")
-      board.fillSpace(3, "O")
-      board.fillSpace(4, "O")
-      board.fillSpace(5, "O")
-      board.fillSpace(6, "X")
-      board.fillSpace(7, "X")
-
-      assert(!rules.tieGame_?("O"))
-    }
-    
-    it("returns false if there is a game winner") {
-      board.fillSpace(0, "X")
-      board.fillSpace(1, "X")
-      board.fillSpace(2, "X")
+      val indexColl = Array(Array(0, 1, 2), Array(3, 4, 5))
       
-      assert(!rules.tieGame_?("O"))
+      rules.getMultipleComboSet(indexColl, dataStructure) should be (Array(Array("O", "X", "X"),
+                                                                           Array("-", "O", "-")))
     }
     
-    it("returns true if game is over") {
-      board.fillSpace(0, "X")
-      board.fillSpace(1, "O")
-      board.fillSpace(2, "X")
-      board.fillSpace(3, "X")
-      board.fillSpace(4, "O")
-      board.fillSpace(5, "O")
-      board.fillSpace(6, "O")
-      board.fillSpace(7, "X")
-      board.fillSpace(8, "X")
-      
-      assert(rules.gameOver_?("X"))
-    }
-    
-    it("returns false if game is not over") {
-      board.fillSpace(0, "X")
-      board.fillSpace(1, "O")
-      board.fillSpace(2, "X")
-      board.fillSpace(3, "X")
-      board.fillSpace(4, "O")
-      board.fillSpace(5, "O")
-      board.fillSpace(6, "O")
-      board.fillSpace(7, "X")
+    it("returns the winning moves on row win") {
+      val dataStructure = Array("O", "O", "O",
+                                "-", "-", "-",
+                                "-", "X", "-")
 
-      assert(!rules.gameOver_?("O"))
+      rules.winningSet(dataStructure) should be (Array(Array("O", "O", "O")))
+    }
+    
+    it("returns empty Array when there is no winner") {
+      val dataStructure = Array("O", "O", "X",
+                                "-", "X", "-",
+                                "-", "X", "O")
+
+      rules.winningSet(dataStructure) should be (Array())
+    }
+
+    it("returns the winning moves for column win") {
+      val dataStructure = Array("O", "X", "X",
+                                "O", "-", "-",
+                                "O", "X", "-")
+
+      rules.winningSet(dataStructure) should be (Array(Array("O", "O", "O")))
+    }
+    
+    it("returns the winning moves for diagonal win") {
+      val dataStructure = Array("O", "X", "X",
+                                "X", "O", "-",
+                                "X", "X", "O")
+
+      rules.winningSet(dataStructure) should be (Array(Array("O", "O", "O")))
+    }
+    
+    it("returns true if there is a tie game") {
+      val dataStructure = Array("O", "X", "O",
+                                "X", "X", "O",
+                                "X", "O", "X")
+      
+      assert(rules.tieGame_?(dataStructure))
+    }
+    
+    it("returns false if there is not a tie game") {
+      val dataStructure = Array("X", "X", "O",
+                                "X", "X", "O",
+                                "X", "O", "X")
+      
+      assert(!rules.tieGame_?(dataStructure))
+    }
+    
+    it("returns true if the game is over - tie game") {
+      val dataStructure = Array("O", "X", "O",
+                                "X", "X", "O",
+                                "X", "O", "X")
+      
+      assert(rules.gameOver_?(dataStructure))
+    }
+    
+    it("returns true if the game is over - winner") {
+      val dataStructure = Array("O", "X", "X",
+                                "X", "O", "-",
+                                "X", "X", "O")
+      
+      assert(rules.gameOver_?(dataStructure))
+    }
+    
+    it("returns false if the game is not over") {
+      val dataStructure = Array("O", "X", "O",
+                                "X", "X", "O",
+                                "X", "-", "X")
+      
+      assert(!rules.gameOver_?(dataStructure))
+    }
+    
+    it("returns the winning game token") {
+      val dataStructure = Array("X", "X", "O",
+                                "X", "X", "O",
+                                "X", "-", "X")
+
+      assert(rules.winningToken(dataStructure) == "X")
+    }
+    
+    it("returns the winning game token for 'O'") {
+      val dataStructure = Array("O", "X", "O",
+                                "X", "O", "O",
+                                "X", "-", "O")
+
+      assert(rules.winningToken(dataStructure) == "O")
+    }
+    
+    it("it returns nothing when there is no game winner") {
+      val dataStructure = Array("O", "X", "O",
+                                "X", "O", "O",
+                                "X", "-", "-")
+
+      assert(rules.winningToken(dataStructure) == null)
     }
   }
 }

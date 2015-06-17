@@ -1,44 +1,47 @@
 package tictactoe
 
-class TicTacToeRules(board: Board, tokens: Array[String]) {
+class TicTacToeRules(dataStructure: Array[String], tokens: Array[String], winningCombination: Array[Array[Int]]) {
 
-  def validMove_?(index: Int, token: String) = {
-    board.spotEmpty_?(index, token)
+  def validMove_?(index: Int, token: String, dataStructure: Array[String]) = {
+    dataStructure(index) == "-"
   }
 
-  def currentTurn_?() = {
-    if (board.oddNumberEmptySpaces_?) tokens(0) else tokens(1)
+  def currentTurn_?(dataStructure: Array[String]) = {
+    if (dataStructure.count(_ == "-") % 2 != 0) tokens(0) else tokens(1)
   }
 
-  def winningToken(token: String) = {
-    if (gameWinner_?(token)) token else null
+  def allSpacesFilled_?(dataStructure: Array[String]) = {
+    !dataStructure.contains("-")
   }
 
-  def gameOver_?(token: String) = {
-    tieGame_?(token) || gameWinner_?(token)
+  def winningCombination_?(dataStructure: Array[String]) = {
+    allSpacesFilled_?(dataStructure) && dataStructure.toSet.size == 1
   }
 
-  def tieGame_?(token: String) = {
-    board.allSpacesFilled_?() && !gameWinner_?(token)
+  def getComboSet(indices: Array[Int], dataStructure: Array[String]) = {
+    indices.map(index => dataStructure(index))
   }
 
-  def gameWinner_?(token: String) = {
-    rowWinner_?(token) || columnWinner_?(token) || diagonalWinner_?(token)
+  def getMultipleComboSet(nestedIndices: Array[Array[Int]], dataStructure: Array[String]) = {
+    nestedIndices.map(indexColl => getComboSet(indexColl, dataStructure))
   }
 
-  private def rowWinner_?(token: String) = {
-    board.rowIndices()
-      .exists(rowIndex => rowIndex.forall(index => (board.spaces(index) == token) ||
-      (board.spaces(index) == token)))
+  def winningSet(dataStructure: Array[String]) = {
+    getMultipleComboSet(winningCombination, dataStructure).filter(combo => winningCombination_?(combo))
   }
-
-  private def columnWinner_?(token: String) = {
-    board.columnIndices()
-      .exists(columnIndex => columnIndex.forall(index => board.spaces(index) == token))
+  
+  def tieGame_?(dataStructure: Array[String]) = {
+    allSpacesFilled_?(dataStructure) && winningSet(dataStructure).size == 0
   }
-
-  private def diagonalWinner_?(token: String) = {
-    board.getAllDiagonalIndices
-      .exists(diagonalIndex => diagonalIndex.forall(index => board.spaces(index) == token))
+  
+  def gameOver_?(dataStructure: Array[String]) = {
+    tieGame_?(dataStructure) || winningSet(dataStructure).size >= 1
+  }
+  
+  def winningToken(dataStructure: Array[String]) = {
+    if (winningSet(dataStructure).size >= 1) {
+      winningSet(dataStructure).head.head
+    } else
+    null
   }
 }
