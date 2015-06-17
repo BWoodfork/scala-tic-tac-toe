@@ -2,9 +2,9 @@ package tictactoe
 
 import scala.collection.mutable.ArrayBuffer
 
-class BoardPresenter(boardStructure: ArrayBuffer[String]) {
+class BoardPresenter(boardStructure: Array[String]) {
 
-  def getIndicesOrTokens(board: ArrayBuffer[String]) = {
+  def getIndicesOrTokens(board: Array[String]) = {
     val indicesAndTokens = new ArrayBuffer[String]
     
     for(spotNum <- board.indices) {
@@ -16,13 +16,13 @@ class BoardPresenter(boardStructure: ArrayBuffer[String]) {
     indicesAndTokens
   }
 
-  def separateRows(boardState: ArrayBuffer[String]) = {
+  def separateRows(boardState: Array[String]) = {
     val rootOfBoardSize = math.sqrt(boardState.size).toInt
     
     getIndicesOrTokens(boardState).grouped(rootOfBoardSize).toArray
   }
 
-  def present(boardState: ArrayBuffer[String]) = {
+  def present(boardState: Array[String]) = {
     separateRows(boardState)
       .foreach(row => println(row(0) + " | " + row(1) + " | " + row(2) + "\n----------"))
   }

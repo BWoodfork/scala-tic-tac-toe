@@ -1,19 +1,26 @@
 package tictactoe
 
-import scala.collection.mutable.ArrayBuffer
-
 class Board(size: Int) {
 
-  val boardState = ArrayBuffer.fill(size * size)("-")
+  val boardState = Array.fill(size * size)("-")
 
   def spaces = boardState
 
   def spaceFilled_?(spot: Int) = {
     boardState(spot) != "-"
   }
-  
+
   def fillSpace(index: Int, token: String) = {
-    boardState.update(index, token)
+    try {
+      if (spaceFilled_?(index)) {
+        println("Space is currently filled, pick another space")
+      } else
+        boardState.update(index, token)
+    } catch {
+      case ex: ArrayIndexOutOfBoundsException => {
+        println("Number too large")
+      }
+    }
     boardState
   }
   
@@ -32,7 +39,7 @@ class Board(size: Int) {
   def allSpacesFilled_?() = {
     spaces.forall(_ != "-")
   }
-  
+
   private def rowIndices() = {
     spaces.indices.toArray.grouped(size).toArray
   }

@@ -7,7 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 class BoardPresenterSpec extends FunSpec with Matchers {
   describe("Board Presenter") {
     it("returns the index when space is blank and token when it is filled") {
-      val boardStructure = ArrayBuffer("X", "O", "O", "-", "-", "-", "-", "-", "-")
+      val boardStructure = Array("X", "O", "O", "-", "-", "-", "-", "-", "-")
       val presenter = new BoardPresenter(boardStructure)
 
       presenter.getIndicesOrTokens(boardStructure) should be(ArrayBuffer("X", "O", "O",
@@ -16,7 +16,7 @@ class BoardPresenterSpec extends FunSpec with Matchers {
     }
     
     it("separates the rows of the board") {
-      val board_state = ArrayBuffer("X", "-", "O", "-", "-", "-", "-", "-", "-")
+      val board_state = Array("X", "-", "O", "-", "-", "-", "-", "-", "-")
       val presenter = new BoardPresenter(board_state)
 
       presenter.separateRows(board_state) should be(Array(ArrayBuffer("X", "1", "O"),

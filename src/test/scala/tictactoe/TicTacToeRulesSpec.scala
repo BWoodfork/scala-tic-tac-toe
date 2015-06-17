@@ -34,16 +34,36 @@ class TicTacToeRulesSpec extends FunSpec with OneInstancePerTest with Matchers {
       assert(rules.currentTurn_?(dataStructure) == "O")
     }
     
-    it("returns true if a move on a board is valid") {
+    it("returns true if move is not taken") {
       val dataStructure = Array("-")
+
       assert(rules.validMove_?(0, "X", dataStructure))
     }
 
-    it("returns false if a move on a board is not valid") {
-      val dataStructure = Array("X")
+    it("returns false if move is taken") {
+      val dataStructure = Array("O")
+
       assert(!rules.validMove_?(0, "X", dataStructure))
     }
+
+    it("returns true if move is within the size limits of a data structure") {
+      val dataStructure = Array("-")
+
+      assert(rules.validMove_?(0, "X", dataStructure))
+    }
+
+    it("returns false if move is not within the size limits of a data structure") {
+      val dataStructure = Array("-")
+
+      assert(!rules.validMove_?(1, "X", dataStructure))
+    }
     
+    it("returns false if move is smaller than board's smallest index") {
+      val dataStructure = Array("-")
+
+      assert(!rules.validMove_?(-1, "X", dataStructure))
+    }
+
     it("returns true if all spaces filled with a token") {
       val dataStructure = Array("X", "X", "O")
 
@@ -199,6 +219,22 @@ class TicTacToeRulesSpec extends FunSpec with OneInstancePerTest with Matchers {
                                 "X", "-", "-")
 
       assert(rules.winningToken(dataStructure) == null)
+    }
+    
+    it("returns a collection of empty spaces") {
+      val dataStructure = Array("O", "O", "X",
+                                "-", "X", "-",
+                                "-", "X", "O")
+      
+      rules.emptySpaces(dataStructure) should be (Array(3, 5, 6))
+    }
+    
+    it("returns a collection of empty spaces for 5 and 6") {
+      val dataStructure = Array("O", "O", "X",
+                                "X", "X", "-",
+                                "-", "X", "O")
+
+      rules.emptySpaces(dataStructure) should be (Array(5, 6))
     }
   }
 }

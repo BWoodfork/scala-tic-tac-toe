@@ -1,9 +1,37 @@
 package tictactoe
 
+import scala.collection.mutable.ArrayBuffer
+
 class TicTacToeRules(dataStructure: Array[String], tokens: Array[String], winningCombination: Array[Array[Int]]) {
+  
+  def emptySpaces(dataStructure: Array[String]) = {
+    val values = new ArrayBuffer[Int]()
+    dataStructure.zipWithIndex.foreach{ case(x, i) => if (x == "-") values += i }
+    
+    values
+  }
+
+  def fillSpace(index: Int, token: String, dataStructure: Array[String]) = {
+    try {
+      if (spaceFilled_?(index, dataStructure) || !validMove_?(index, token ,dataStructure)) {
+        println("Space is currently filled, pick another space")
+      } else
+        dataStructure.update(index, token)
+    } catch {
+      case ex: ArrayIndexOutOfBoundsException => {
+        println("Number too large")
+      }
+    }
+    
+    dataStructure
+  }
+  
+  def spaceFilled_?(spot: Int, dataStructure: Array[String]) = {
+    dataStructure(spot) != "-"
+  }
 
   def validMove_?(index: Int, token: String, dataStructure: Array[String]) = {
-    dataStructure(index) == "-"
+    (index >= dataStructure.indices.head) && !(index >= dataStructure.size) && dataStructure(index) == "-"
   }
 
   def currentTurn_?(dataStructure: Array[String]) = {
@@ -44,4 +72,6 @@ class TicTacToeRules(dataStructure: Array[String], tokens: Array[String], winnin
     } else
     null
   }
+  
+//  def emptySpaces()
 }
