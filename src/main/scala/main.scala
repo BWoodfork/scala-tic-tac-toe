@@ -7,7 +7,7 @@ object Hi extends {
     val tokens = Array[String]("X", "O")
     val board = new Board(3)
     val presenter = new BoardPresenter(board.spaces)
-    val rules = new TicTacToeRules(board.spaces, tokens, board.allWinningIndexCombinations())
+    val rules = new TicTacToeRules(board.spaces, tokens)
     val loop = new GameLoop(rules, board, presenter)
     loop.run()
   }

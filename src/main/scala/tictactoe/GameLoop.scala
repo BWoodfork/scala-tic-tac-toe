@@ -1,14 +1,21 @@
 package tictactoe
 
-class GameLoop(ticTacToeRules: TicTacToeRules, board: Board, boardPresenter: BoardPresenter) {
+class GameLoop(rules: TicTacToeRules, board: Board, boardPresenter: BoardPresenter) {
 
   def run() = {
     val boardSpaces = board.spaces
     
-    while (!ticTacToeRules.gameOver_?(boardSpaces)) {
+    while (!rules.gameOver_?(boardSpaces)) {
       boardPresenter.present(boardSpaces)
+      
       try {
-        board.fillSpace(Console.readInt(), ticTacToeRules.currentTurn_?(boardSpaces))
+        val move = Console.readLine().toInt
+        
+        if (!rules.validMove_?(move)) {
+          println("Move is invalid")
+        } else
+        
+        board.fillSpace(move, rules.currentTurn_?())
       } catch {
         case ex: NumberFormatException => {
           println("Move must be an integer")

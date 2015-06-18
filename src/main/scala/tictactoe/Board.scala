@@ -1,5 +1,7 @@
 package tictactoe
 
+import scala.collection.mutable.ArrayBuffer
+
 class Board(size: Int) {
 
   val boardState = Array.fill(size * size)("-")
@@ -9,21 +11,21 @@ class Board(size: Int) {
   def spaceFilled_?(spot: Int) = {
     boardState(spot) != "-"
   }
-
+  
   def fillSpace(index: Int, token: String) = {
     try {
-      if (spaceFilled_?(index)) {
-        println("Space is currently filled, pick another space")
-      } else
-        boardState.update(index, token)
+      spaces.update(index, token)
     } catch {
       case ex: ArrayIndexOutOfBoundsException => {
-        println("Number too large")
+        println("Move is not within board's limits")
+      }
+      case ex: NumberFormatException => {
+        println("Move must be an integer")
       }
     }
-    boardState
+    spaces
   }
-  
+
   def oddNumberEmptySpaces_? = {
     spaces.count(_ == "-") % 2 != 0
   }
@@ -32,41 +34,14 @@ class Board(size: Int) {
     spaces(index) == "-"
   }
 
-  def allWinningIndexCombinations() = {
-    rowIndices() ++ columnIndices() ++ leftAndRightDiagonalIndices
-  }
-
   def allSpacesFilled_?() = {
     spaces.forall(_ != "-")
   }
 
-  private def rowIndices() = {
-    spaces.indices.toArray.grouped(size).toArray
-  }
-  
-  private def columnIndices() = {
-    val groupedIndices = indices().grouped(size)
+  def emptySpaces() = {
+    val values = new ArrayBuffer[Int]()
 
-    transpose_indices(groupedIndices.toArray)
-  }
-
-  private def leftAndRightDiagonalIndices =
-    Array(leftDiagonalIndices(), rightDiagonalIndices())
-  
-  private def leftDiagonalIndices() = {
-    indices().groupBy(_ % (size + 1) == 0)(true)
-  }
-
-  private def rightDiagonalIndices() = {
-    val indicesWithoutLast = indices().init
-    indicesWithoutLast.groupBy(_ % (size - 1) == 0)(true).tail
-  }
-
-  private def indices() = {
-    spaces.indices.toArray
-  }
-  
-  private def transpose_indices(collection: Array[Array[Int]]) = {
-    collection.transpose
+    spaces.zipWithIndex.foreach{ case(x, i) => if (x == "-") values += i }
+    values
   }
 }

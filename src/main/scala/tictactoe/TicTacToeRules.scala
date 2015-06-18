@@ -1,40 +1,14 @@
 package tictactoe
 
-import scala.collection.mutable.ArrayBuffer
+class TicTacToeRules(dataStructure: Array[String], tokens: Array[String]) {
+  var size = math.sqrt(dataStructure.size).toInt
+  val indices = dataStructure.indices.toArray
 
-class TicTacToeRules(dataStructure: Array[String], tokens: Array[String], winningCombination: Array[Array[Int]]) {
-  
-  def emptySpaces(dataStructure: Array[String]) = {
-    val values = new ArrayBuffer[Int]()
-    dataStructure.zipWithIndex.foreach{ case(x, i) => if (x == "-") values += i }
-    
-    values
+  def validMove_?(index: Int) = {
+    (index >= dataStructure.indices.head) && !(index >= dataStructure.size) && dataStructure(index) == "-" && index.isInstanceOf[Int]
   }
 
-  def fillSpace(index: Int, token: String, dataStructure: Array[String]) = {
-    try {
-      if (spaceFilled_?(index, dataStructure) || !validMove_?(index, token ,dataStructure)) {
-        println("Space is currently filled, pick another space")
-      } else
-        dataStructure.update(index, token)
-    } catch {
-      case ex: ArrayIndexOutOfBoundsException => {
-        println("Number too large")
-      }
-    }
-    
-    dataStructure
-  }
-  
-  def spaceFilled_?(spot: Int, dataStructure: Array[String]) = {
-    dataStructure(spot) != "-"
-  }
-
-  def validMove_?(index: Int, token: String, dataStructure: Array[String]) = {
-    (index >= dataStructure.indices.head) && !(index >= dataStructure.size) && dataStructure(index) == "-"
-  }
-
-  def currentTurn_?(dataStructure: Array[String]) = {
+  def currentTurn_?() = {
     if (dataStructure.count(_ == "-") % 2 != 0) tokens(0) else tokens(1)
   }
 
@@ -55,7 +29,7 @@ class TicTacToeRules(dataStructure: Array[String], tokens: Array[String], winnin
   }
 
   def winningSet(dataStructure: Array[String]) = {
-    getMultipleComboSet(winningCombination, dataStructure).filter(combo => winningCombination_?(combo))
+    getMultipleComboSet(allWinningIndexCombinations(), dataStructure).filter(combo => winningCombination_?(combo))
   }
   
   def tieGame_?(dataStructure: Array[String]) = {
@@ -73,5 +47,34 @@ class TicTacToeRules(dataStructure: Array[String], tokens: Array[String], winnin
     null
   }
   
-//  def emptySpaces()
+  def allWinningIndexCombinations() = {
+    rowIndices() ++ columnIndices() ++ leftAndRightDiagonalIndices
+  }
+
+  private def rowIndices() = {
+    dataStructure.indices.toArray.grouped(size).toArray
+  }
+
+  private def columnIndices() = {
+    val groupedIndices = indices.grouped(size)
+
+    transpose_indices(groupedIndices.toArray)
+  }
+
+  private def leftAndRightDiagonalIndices =
+    Array(leftDiagonalIndices(), rightDiagonalIndices())
+
+  private def leftDiagonalIndices() = {
+    indices.groupBy(_ % (size + 1) == 0)(true)
+  }
+
+  private def rightDiagonalIndices() = {
+    val indicesWithoutLast = indices.init
+    
+    indicesWithoutLast.groupBy(_ % (size - 1) == 0)(true).tail
+  }
+
+  private def transpose_indices(collection: Array[Array[Int]]) = {
+    collection.transpose
+  }
 }

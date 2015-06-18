@@ -12,6 +12,12 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
 
         assert(board.spaces.size == 9)
       }
+      
+      it("has a 4x4 grid when given an a size of 4") {
+        val board = new Board(4)
+        
+        assert(board.spaces.size == 16)
+      }
 
       it("fills a space, given an 'X' token and a 0 index") {
         board.fillSpace(0, "X") should be(Array("X", "-", "-",
@@ -58,17 +64,6 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
         assert(!board.spotEmpty_?(0, "X"))
       }
 
-      it("returns a collection of row, horizontal and diagonal") {
-        board.allWinningIndexCombinations() should be (Array(Array(0, 1, 2),
-                                                             Array(3, 4, 5),
-                                                             Array(6, 7, 8),
-                                                             Array(0, 3, 6),
-                                                             Array(1, 4, 7),
-                                                             Array(2, 5, 8),
-                                                             Array(0, 4, 8),
-                                                             Array(2, 4, 6)))
-      }
-      
       it("returns true if all spaces are filled with tokens") {
         board.fillSpace(0, "X")
         board.fillSpace(1, "X")
@@ -95,26 +90,26 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
 
         assert(!board.allSpacesFilled_?())
       }
-    }
 
-    describe("4x4 grid") {
-      val board = new Board(4)
-      
-      it("has a 4x4 grid when given an a size of 4") {
-        assert(board.spaces.size == 16)
+      it("returns a collection of empty spaces") {
+        board.fillSpace(0, "O")
+        board.fillSpace(1, "O")
+        board.fillSpace(2, "O")
+        board.fillSpace(3, "X")
+        board.fillSpace(4, "X")
+        board.fillSpace(5, "X")
+
+        board.emptySpaces() should be (Array(6, 7, 8))
       }
 
-      it("returns a collection of row, horizontal and diagonal on 4x4 board") {
-        board.allWinningIndexCombinations() should be (Array( Array(0, 1, 2, 3),
-                                                              Array(4, 5, 6, 7),
-                                                              Array(8, 9, 10, 11),
-                                                              Array(12, 13, 14, 15),
-                                                              Array(0, 4, 8, 12),
-                                                              Array(1, 5, 9, 13),
-                                                              Array(2, 6, 10, 14),
-                                                              Array(3, 7, 11, 15),
-                                                              Array(0, 5, 10, 15),
-                                                              Array(3, 6, 9, 12)))
+      it("returns a collection of empty spaces for 5 and 6") {
+        board.fillSpace(4, "X")
+        board.fillSpace(5, "X")
+        board.fillSpace(6, "X")
+        board.fillSpace(7, "X")
+        board.fillSpace(8, "X")
+
+        board.emptySpaces() should be (Array(0, 1, 2, 3))
       }
     }
   }
