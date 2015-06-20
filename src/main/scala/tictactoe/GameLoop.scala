@@ -1,26 +1,26 @@
 package tictactoe
 
-class GameLoop(rules: TicTacToeRules, board: Board, boardPresenter: BoardPresenter) {
+class GameLoop(game: Game, boardStructure: Array[String], players: Array[GamePlayer]) {
 
   def run() = {
-    val boardSpaces = board.spaces
-    
-    while (!rules.gameOver_?(boardSpaces)) {
-      boardPresenter.present(boardSpaces)
-      
+    val helper = new GameLoopHelper(players)
+    while (game.isRunning(boardStructure)) {
+      game.renderBoard(boardStructure)
       try {
-        val move = Console.readLine().toInt
+        val move = helper.currentPlayer(helper.incrementerValue).getMove(boardStructure, game.currentToken(boardStructure))
+        game.updateBoard(move, game.currentToken(boardStructure), boardStructure)
         
-        if (!rules.validMove_?(move)) {
-          println("Move is invalid")
-        } else
+        if(!game.validMove_?(move)) {
+        } else game.updateBoard(move, game.currentToken(boardStructure), boardStructure)
+        helper.takeTurn
         
-        board.fillSpace(move, rules.currentTurn_?())
       } catch {
         case ex: NumberFormatException => {
-          println("Move must be an integer")
+          UI.sendMessage(UIMessages.Int)
         }
       }
     }
+
+    game.renderBoard(boardStructure)
   }
 }

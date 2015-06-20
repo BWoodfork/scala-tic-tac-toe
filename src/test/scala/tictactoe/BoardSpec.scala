@@ -20,96 +20,90 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
       }
 
       it("fills a space, given an 'X' token and a 0 index") {
-        board.fillSpace(0, "X") should be(Array("X", "-", "-",
-                                                "-", "-", "-",
-                                                "-", "-", "-"))
+        val boardStructure = Array("-", "-", "-",
+                                   "-", "-", "-", 
+                                   "-", "-", "-")
+        board.fillSpace(0, "X", boardStructure) should be(Array("X", "-", "-",
+                                                                "-", "-", "-",
+                                                                "-", "-", "-"))
       }
 
       it("fills a space, given an 'O' token and a 1 index") {
-        board.fillSpace(1, "O") should be(Array("-", "O", "-",
-                                                "-", "-", "-",
-                                                "-", "-", "-"))
+        val boardStructure = Array("-", "-", "-",
+                                   "-", "-", "-",
+                                   "-", "-", "-")
+        
+        board.fillSpace(1, "O", boardStructure) should be(Array("-", "O", "-",
+                                                                "-", "-", "-",
+                                                                "-", "-", "-"))
       }
 
       it("returns true if a space is filled") {
-        board.fillSpace(0, "X")
+        val boardStructure = Array("X")
 
-        assert(board.spaceFilled_?(0))
+        assert(board.spaceFilled_?(0, boardStructure))
       }
 
       it("returns false if space is not filled") {
-        board.fillSpace(1, "O")
+        val boardStructure = Array("-")
 
-        assert(!board.spaceFilled_?(0))
+        assert(!board.spaceFilled_?(0, boardStructure))
       }
 
       it("returns true when board count is odd") {
-
-        assert(board.oddNumberEmptySpaces_?)
+        val boardStructure = Array("-")
+        
+        assert(board.oddNumberEmptySpaces_?(boardStructure))
       }
 
       it("returns false when board count is even") {
-        board.fillSpace(0, "X")
+        val boardStructure = Array("X")
 
-        assert(!board.oddNumberEmptySpaces_?)
+        assert(!board.oddNumberEmptySpaces_?(boardStructure))
       }
 
       it("returns true if spot on board is empty") {
-        assert(board.spotEmpty_?(0, "X"))
+        val boardStructure = Array("-")
+        
+        assert(board.spotEmpty_?(0, "X", boardStructure))
       }
 
       it("returns false if spot on board is not empty") {
-        board.fillSpace(0, "X")
+        val boardStructure = Array("X")
 
-        assert(!board.spotEmpty_?(0, "X"))
+        assert(!board.spotEmpty_?(0, "X", boardStructure))
       }
 
       it("returns true if all spaces are filled with tokens") {
-        board.fillSpace(0, "X")
-        board.fillSpace(1, "X")
-        board.fillSpace(2, "X")
-        board.fillSpace(3, "X")
-        board.fillSpace(4, "X")
-        board.fillSpace(5, "X")
-        board.fillSpace(6, "X")
-        board.fillSpace(7, "X")
-        board.fillSpace(8, "X")
-        
-        assert(board.allSpacesFilled_?())
-      }
-      
-      it("returns false if all spaces are not filled with tokens") {
-        board.fillSpace(1, "X")
-        board.fillSpace(2, "X")
-        board.fillSpace(3, "X")
-        board.fillSpace(4, "X")
-        board.fillSpace(5, "X")
-        board.fillSpace(6, "X")
-        board.fillSpace(7, "X")
-        board.fillSpace(8, "X")
+        val boardStructure = Array("O", "X", "O",
+                                   "X", "X", "O",
+                                   "X", "O", "X")
 
-        assert(!board.allSpacesFilled_?())
+        assert(board.allSpacesFilled_?(boardStructure))
+      }
+
+      it("returns false if all spaces are not filled with tokens") {
+        val boardStructure = Array("O", "X", "O",
+                                   "X", "X", "O",
+                                   "X", "O", "-")
+
+        assert(!board.allSpacesFilled_?(boardStructure))
       }
 
       it("returns a collection of empty spaces") {
-        board.fillSpace(0, "O")
-        board.fillSpace(1, "O")
-        board.fillSpace(2, "O")
-        board.fillSpace(3, "X")
-        board.fillSpace(4, "X")
-        board.fillSpace(5, "X")
+        val boardStructure = Array("O", "X", "O",
+                                   "X", "X", "O",
+                                   "-", "-", "-")
 
-        board.emptySpaces() should be (Array(6, 7, 8))
+        board.emptySpaces(boardStructure) should be (Array(6, 7, 8))
       }
 
-      it("returns a collection of empty spaces for 5 and 6") {
-        board.fillSpace(4, "X")
-        board.fillSpace(5, "X")
-        board.fillSpace(6, "X")
-        board.fillSpace(7, "X")
-        board.fillSpace(8, "X")
+      it("returns a collection of empty spaces for 0 and 1") {
+        val boardStructure = Array("-", "-", "O",
+                                   "X", "X", "O",
+                                   "O", "O", "X")
 
-        board.emptySpaces() should be (Array(0, 1, 2, 3))
+        board.emptySpaces(boardStructure) should be (Array(0, 1))
       }
     }
   }

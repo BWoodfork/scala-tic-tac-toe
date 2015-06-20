@@ -8,40 +8,31 @@ class Board(size: Int) {
 
   def spaces = boardState
 
-  def spaceFilled_?(spot: Int) = {
-    boardState(spot) != "-"
+  def spaceFilled_?(spot: Int, boardStructure: Array[String]) = {
+    boardStructure(spot) != "-"
   }
   
-  def fillSpace(index: Int, token: String) = {
-    try {
-      spaces.update(index, token)
-    } catch {
-      case ex: ArrayIndexOutOfBoundsException => {
-        println("Move is not within board's limits")
-      }
-      case ex: NumberFormatException => {
-        println("Move must be an integer")
-      }
-    }
-    spaces
+  def fillSpace(index: Int, token: String, boardStructure: Array[String]) = {
+    boardStructure.update(index, token)
+    boardStructure
   }
 
-  def oddNumberEmptySpaces_? = {
-    spaces.count(_ == "-") % 2 != 0
+  def oddNumberEmptySpaces_?(boardStructure: Array[String]) = {
+    boardStructure.count(_ == "-") % 2 != 0
   }
   
-  def spotEmpty_?(index: Int, token: String) = {
-    spaces(index) == "-"
+  def spotEmpty_?(index: Int, token: String, boardStructure: Array[String]) = {
+    boardStructure(index) == "-"
   }
 
-  def allSpacesFilled_?() = {
-    spaces.forall(_ != "-")
+  def allSpacesFilled_?(boardStructure: Array[String]) = {
+    boardStructure.forall(_ != "-")
   }
 
-  def emptySpaces() = {
+  def emptySpaces(boardStructure: Array[String]) = {
     val values = new ArrayBuffer[Int]()
 
-    spaces.zipWithIndex.foreach{ case(x, i) => if (x == "-") values += i }
+    boardStructure.zipWithIndex.foreach{ case(x, i) => if (x == "-") values += i }
     values
   }
 }

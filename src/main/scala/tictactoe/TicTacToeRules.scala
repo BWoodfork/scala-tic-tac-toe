@@ -1,6 +1,8 @@
 package tictactoe
 
-class TicTacToeRules(dataStructure: Array[String], tokens: Array[String]) {
+import scala.collection.mutable.ArrayBuffer
+
+class TicTacToeRules(dataStructure: Array[String], tokens: ArrayBuffer[String]) {
   var size = math.sqrt(dataStructure.size).toInt
   val indices = dataStructure.indices.toArray
 

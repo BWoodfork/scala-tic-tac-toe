@@ -2,8 +2,10 @@ package tictactoe
 
 import org.scalatest.{OneInstancePerTest, FunSpec, Matchers}
 
+import scala.collection.mutable.ArrayBuffer
+
 class TicTacToeRulesSpec extends FunSpec with OneInstancePerTest with Matchers {
-  val tokens = Array[String]("X", "O")
+  val tokens = ArrayBuffer[String]("X", "O")
 
   describe("TicTacToeRules") {
     it("returns first token when board count is odd") {

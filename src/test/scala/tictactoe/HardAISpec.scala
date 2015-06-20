@@ -1,49 +1,76 @@
 package tictactoe
 
-import org.scalatest.FunSpec
+import org.scalatest.{Matchers, FunSpec}
 
-class HardAISpec extends FunSpec {
+import scala.collection.mutable.ArrayBuffer
+
+class HardAISpec extends FunSpec with Matchers {
+
+  val tokens = ArrayBuffer[String]("X", "O")
+  
   describe("HardAI") {
-    it("should return the move to tie the game") {
-      val tokens = Array[String]("X", "O")
-      val winningCombos =
-        Array(Array(0, 1, 2),
-          Array(3, 4, 5),
-          Array(6, 7, 8),
-          Array(0, 3, 6),
-          Array(1, 4, 7),
-          Array(2, 5, 8),
-          Array(0, 4, 8),
-          Array(2, 4, 6))
+    it("it returns the first move, given an empty board") {
+      val boardStructure = Array("-", "-", "-",
+                                 "-", "-", "-",
+                                 "-", "-", "-")
 
-      val dataStructure = Array("X", "O", "X",
-                                "X", "O", "-",
-                                "-", "-", "-")
+      val rules = new TicTacToeRules(boardStructure, tokens)
+      val board = new Board(3)
+      val token = "X"
+      val ai = new HardAI(rules, board, token)
 
-      val rules = new TicTacToeRules(dataStructure, tokens, winningCombos)
-      val ai = new HardAI(rules)
-      assert(ai.minimax(dataStructure) == 7)
+      assert(ai.getMove(boardStructure, token) == 8)
     }
-    
-    it("should return the winning move") {
-      val tokens = Array[String]("X", "O")
-      val winningCombos =
-        Array(Array(0, 1, 2),
-          Array(3, 4, 5),
-          Array(6, 7, 8),
-          Array(0, 3, 6),
-          Array(1, 4, 7),
-          Array(2, 5, 8),
-          Array(0, 4, 8),
-          Array(2, 4, 6))
 
-      val dataStructure = Array("X", "O", "X",
-                                "X", "O", "O",
-                                "O", "X", "-")
+    it("makes a corner move after center move has been taken first") {
+      val boardStructure = Array("-", "-", "-",
+                                 "-", "O", "-",
+                                 "-", "-", "-")
 
-      val rules = new TicTacToeRules(dataStructure, tokens, winningCombos)
-      val ai = new HardAI(rules)
-      assert(ai.minimax(dataStructure) == 8)
+      val rules = new TicTacToeRules(boardStructure, tokens)
+      val board = new Board(3)
+      val token = "X"
+      val ai = new HardAI(rules, board, token)
+
+      assert(ai.getMove(boardStructure, token) == 8)
+    }
+
+    it("takes the corner when dual win option avaialable") {
+      val boardStructure = Array("-", "-", "X",
+                                 "O", "X", "-",
+                                 "O", "-", "-")
+
+      val rules = new TicTacToeRules(boardStructure, tokens)
+      val board = new Board(3)
+      val token = "X"
+      val ai = new HardAI(rules, board, token)
+
+      assert(ai.getMove(boardStructure, token) == 0)
+    }
+
+    it("should return the move to win the game") {
+      val boardStructure = Array("X", "O", "X",
+                                 "X", "O", "-",
+                                 "-", "-", "-")
+
+      val rules = new TicTacToeRules(boardStructure, tokens)
+      val board = new Board(3)
+      val token = "X"
+      val ai = new HardAI(rules, board, token)
+
+      assert(ai.getMove(boardStructure, token) == 7)
+    }
+
+    it("should return the move to tie the game") {
+      val boardStructure = Array("X", "O", "X",
+                                 "X", "O", "O",
+                                 "O", "X", "-")
+      val rules = new TicTacToeRules(boardStructure, tokens)
+      val board = new Board(3)
+      val token = "X"
+      val ai = new HardAI(rules, board, token)
+
+      assert(ai.getMove(boardStructure, token) == 8)
     }
   }
 }
