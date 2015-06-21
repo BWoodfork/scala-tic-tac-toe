@@ -1,4 +1,6 @@
-package tictactoe
+package tictactoe.Board
+
+import tictactoe.{ConsoleUI, UIMessages}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -22,8 +24,15 @@ class BoardPresenter(boardStructure: Array[String]) {
     getIndicesOrTokens(boardState).grouped(rootOfBoardSize).toArray
   }
 
-  def present(boardState: Array[String]) = {
+  def formatBoard(boardState: Array[String]) = {
     separateRows(boardState)
       .foreach(row => println(row(0) + " | " + row(1) + " | " + row(2) + "\n----------"))
+  }
+  
+  def present(boardState: Array[String]) = {
+    ConsoleUI.sendMessage(UIMessages.ShortNewLines)
+    formatBoard(boardStructure)
+    ConsoleUI.sendMessage(UIMessages.colorStringBlue(UIMessages.NumberedSpace))
+    ConsoleUI.sendMessage(UIMessages.BigNewLines)
   }
 }

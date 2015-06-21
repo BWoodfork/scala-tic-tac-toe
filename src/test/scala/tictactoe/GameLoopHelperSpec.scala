@@ -1,66 +1,51 @@
 package tictactoe
 
 import org.scalatest.FunSpec
-
-import scala.collection.mutable.ArrayBuffer
+import tictactoe.Board.Board
+import tictactoe.Game.Players.{HardAI, User, GamePlayer}
+import tictactoe.GameLoopHelper
 
 class GameLoopHelperSpec extends FunSpec {
+  val board = new Board(3)
+      val rules = new TicTacToeRules(board.spaces)
+      val game = new TestGame
+      val players = Array[GamePlayer](new User(), new HardAI(rules, board, board.spaces, game))
+      val helper = new GameLoopHelper(players)
+  
   describe("GameLoopHelper") {
     it("increments _playerIncrementer when takeTurn is called") {
-      val token = "X"
-      val board = new Board(3)
-      val players = Array[GamePlayer](new User(board, token))
-      val helper = new GameLoopHelper(players)
-      
       assert(helper.incrementerValue == 0)
       
-      helper.takeTurn
+      helper.takeTurn()
       
       assert(helper.incrementerValue == 1)
     }
     
     it("returns current player as 'User' before turn is taken") {
-      val tokens = ArrayBuffer[String]("X", "O")
-      val board = new Board(3)
-      val rules = new TicTacToeRules(board.spaces, tokens)
-      val players = Array[GamePlayer](new User(board, tokens(0)), new HardAI(rules, board, tokens(1)))
-      val helper = new GameLoopHelper(players)
 
       assert(helper.currentPlayer(0).isInstanceOf[User])
     }
     
     it("returns current player as 'HardAI' after turn is taken") {
-      val tokens = ArrayBuffer[String]("X", "O")
-      val board = new Board(3)
-      val rules = new TicTacToeRules(board.spaces, tokens)
-      val players = Array[GamePlayer](new User(board, tokens(0)), new HardAI(rules, board, tokens(1)))
-      val helper = new GameLoopHelper(players)
+      helper.takeTurn()
       
-      helper.takeTurn
       assert(helper.currentPlayer(1).isInstanceOf[HardAI])
     }
     
     it("returns current player as 'User' after second turn is taken") {
-      val tokens = ArrayBuffer[String]("X", "O")
-      val board = new Board(3)
-      val rules = new TicTacToeRules(board.spaces, tokens)
-      val players = Array[GamePlayer](new User(board, tokens(0)), new HardAI(rules, board, tokens(1)))
-      val helper = new GameLoopHelper(players)
-
-      helper.takeTurn
-      helper.takeTurn
+      helper.takeTurn()
+      helper.takeTurn()
+      
       assert(helper.currentPlayer(0).isInstanceOf[User])
     }
     
     it("returns the value of _playerIncrementer") {
-      val token = "X"
-      val board = new Board(3)
-      val players = Array[GamePlayer](new User(board, token))
+      val players = Array[GamePlayer](new User())
       val helper = new GameLoopHelper(players)
 
       assert(helper.incrementerValue == 0)
 
-      helper.takeTurn
+      helper.takeTurn()
 
       assert(helper.incrementerValue == 1)
     }

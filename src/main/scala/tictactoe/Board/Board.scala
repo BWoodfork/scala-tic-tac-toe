@@ -1,10 +1,10 @@
-package tictactoe
+package tictactoe.Board
 
 import scala.collection.mutable.ArrayBuffer
 
 class Board(size: Int) {
 
-  val boardState = Array.fill(size * size)("-")
+  private val boardState = Array.fill(size * size)("-")
 
   def spaces = boardState
 

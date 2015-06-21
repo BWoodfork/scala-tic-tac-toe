@@ -1,52 +1,43 @@
 package tictactoe
 
-import scala.collection.mutable.ArrayBuffer
-
-class TicTacToeRules(dataStructure: Array[String], tokens: ArrayBuffer[String]) {
-  var size = math.sqrt(dataStructure.size).toInt
-  val indices = dataStructure.indices.toArray
+class TicTacToeRules(boardStructure: Array[String]) {
 
   def validMove_?(index: Int) = {
-    (index >= dataStructure.indices.head) && !(index >= dataStructure.size) && dataStructure(index) == "-" && index.isInstanceOf[Int]
+    (index >= boardStructure.indices.head) && !(index >= boardStructure.size) && boardStructure(index) == "-" && index.isInstanceOf[Int]
   }
 
-  def currentTurn_?() = {
-    if (dataStructure.count(_ == "-") % 2 != 0) tokens(0) else tokens(1)
+  def allSpacesFilled_?(boardStructure: Array[String]) = {
+    !boardStructure.contains("-")
   }
 
-  def allSpacesFilled_?(dataStructure: Array[String]) = {
-    !dataStructure.contains("-")
+  def winningCombination_?(boardStructure: Array[String]) = {
+    allSpacesFilled_?(boardStructure) && boardStructure.toSet.size == 1
   }
 
-  def winningCombination_?(dataStructure: Array[String]) = {
-    allSpacesFilled_?(dataStructure) && dataStructure.toSet.size == 1
+  def getComboSet(indices: Array[Int], boardStructure: Array[String]) = {
+    indices.map(index => boardStructure(index))
   }
 
-  def getComboSet(indices: Array[Int], dataStructure: Array[String]) = {
-    indices.map(index => dataStructure(index))
+  def getMultipleComboSet(nestedIndices: Array[Array[Int]], boardStructure: Array[String]) = {
+    nestedIndices.map(indexColl => getComboSet(indexColl, boardStructure))
   }
 
-  def getMultipleComboSet(nestedIndices: Array[Array[Int]], dataStructure: Array[String]) = {
-    nestedIndices.map(indexColl => getComboSet(indexColl, dataStructure))
-  }
-
-  def winningSet(dataStructure: Array[String]) = {
-    getMultipleComboSet(allWinningIndexCombinations(), dataStructure).filter(combo => winningCombination_?(combo))
+  def winningSet(boardStructure: Array[String]) = {
+    getMultipleComboSet(allWinningIndexCombinations(), boardStructure).filter(combo => winningCombination_?(combo))
   }
   
-  def tieGame_?(dataStructure: Array[String]) = {
-    allSpacesFilled_?(dataStructure) && winningSet(dataStructure).size == 0
+  def tieGame_?(boardStructure: Array[String]) = {
+    allSpacesFilled_?(boardStructure) && winningSet(boardStructure).size == 0
   }
   
-  def gameOver_?(dataStructure: Array[String]) = {
-    tieGame_?(dataStructure) || winningSet(dataStructure).size >= 1
+  def gameOver_?(boardStructure: Array[String]) = {
+    tieGame_?(boardStructure) || winningSet(boardStructure).size >= 1
   }
   
-  def winningToken(dataStructure: Array[String]) = {
-    if (winningSet(dataStructure).size >= 1) {
-      winningSet(dataStructure).head.head
-    } else
-    null
+  def winningToken(boardStructure: Array[String]) = {
+    if (winningSet(boardStructure).size >= 1) {
+      winningSet(boardStructure).head.head
+    } else UIMessages.NoWinningToken
   }
   
   def allWinningIndexCombinations() = {
@@ -54,7 +45,7 @@ class TicTacToeRules(dataStructure: Array[String], tokens: ArrayBuffer[String]) 
   }
 
   private def rowIndices() = {
-    dataStructure.indices.toArray.grouped(size).toArray
+    boardStructure.indices.toArray.grouped(size).toArray
   }
 
   private def columnIndices() = {
@@ -79,4 +70,7 @@ class TicTacToeRules(dataStructure: Array[String], tokens: ArrayBuffer[String]) 
   private def transpose_indices(collection: Array[Array[Int]]) = {
     collection.transpose
   }
+  
+  private val size = math.sqrt(boardStructure.size).toInt
+  private val indices = boardStructure.indices.toArray
 }

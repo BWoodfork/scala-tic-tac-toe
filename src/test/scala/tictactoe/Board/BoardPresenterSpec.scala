@@ -1,6 +1,6 @@
-package tictactoe
+package tictactoe.Board
 
-import org.scalatest.{Matchers, FunSpec}
+import org.scalatest.{FunSpec, Matchers}
 
 import scala.collection.mutable.ArrayBuffer
 

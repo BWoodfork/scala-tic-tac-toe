@@ -1,26 +1,42 @@
 package tictactoe
 
-class GameLoop(game: Game, boardStructure: Array[String], players: Array[GamePlayer]) {
+import tictactoe.Game.Players.GamePlayer
+
+import scala.util.control.Breaks._
+
+class GameLoop(game: Game, players: Array[GamePlayer]) {
 
   def run() = {
     val helper = new GameLoopHelper(players)
-    while (game.isRunning(boardStructure)) {
-      game.renderBoard(boardStructure)
+
+    while (game.isRunning) {
+      game.renderBoard()
+
       try {
-        val move = helper.currentPlayer(helper.incrementerValue).getMove(boardStructure, game.currentToken(boardStructure))
-        game.updateBoard(move, game.currentToken(boardStructure), boardStructure)
-        
-        if(!game.validMove_?(move)) {
-        } else game.updateBoard(move, game.currentToken(boardStructure), boardStructure)
-        helper.takeTurn
-        
+        breakable(
+          while (true) {
+            _move = helper.currentPlayer(helper.incrementerValue).getMove()
+
+            if(game.validMove_?(_move)) {
+              break()
+            } else
+              game.renderBoard()
+            ConsoleUI.sendMessage(UIMessages.InvalidMove)
+          }
+        )
+        game.updateBoard(_move, game.currentToken())
+        helper.takeTurn()
+
       } catch {
         case ex: NumberFormatException => {
-          UI.sendMessage(UIMessages.Int)
+          ConsoleUI.sendMessage(UIMessages.Int)
         }
       }
     }
-
-    game.renderBoard(boardStructure)
+    
+    game.renderBoard()
+    ConsoleUI.sendMessage(UIMessages.WinningToken + game.winningToken)
   }
+
+  private var _move = 0
 }

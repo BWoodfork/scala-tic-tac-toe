@@ -1,31 +1,39 @@
 package tictactoe
 
-class TicTacToeGame(rules: TicTacToeRules, presenter: BoardPresenter) extends Game {
-  
-  def updateBoard(index: Int, token: String, boardStructure: Array[String]) = {
+import tictactoe.Board.BoardPresenter
+
+import scala.collection.mutable.ArrayBuffer
+
+class TicTacToeGame(rules: TicTacToeRules, boardStructure: Array[String], presenter: BoardPresenter, tokens: ArrayBuffer[String]) extends Game {
+
+  def updateBoard(index: Int, token: String) = {
     try {
       boardStructure.update(index, token)
     } catch {
       case ex: ArrayIndexOutOfBoundsException => {
-        UI.sendMessage(UIMessages.InvalidLength)
+        ConsoleUI.sendMessage(UIMessages.InvalidLength)
       }
     }
     boardStructure
   }
 
-  override def isRunning(dataStructure: Array[String]): Boolean = {
-    !rules.gameOver_?(dataStructure)
+  override def isRunning: Boolean = {
+    !rules.gameOver_?(boardStructure)
   }
 
-  override def renderBoard(boardStructure: Array[String]): Unit = {
+  override def renderBoard(): Unit = {
     presenter.present(boardStructure)
   }
 
-  override def currentToken(dataStructure: Array[String]): String = {
-    rules.currentTurn_?()
+  override def currentToken(): String = {
+    if (boardStructure.count(_ == "-") % 2 != 0) UIMessages.colorStringBlue(tokens(0)) else  UIMessages.colorStringRed(tokens(1))
   }
 
   override def validMove_?(index: Int): Boolean = {
     rules.validMove_?(index)
+  }
+  
+  override def winningToken() = {
+    rules.winningToken(boardStructure)
   }
 }

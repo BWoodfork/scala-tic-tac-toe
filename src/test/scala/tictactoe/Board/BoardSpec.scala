@@ -1,6 +1,6 @@
-package tictactoe
+package tictactoe.Board
 
-import org.scalatest.{OneInstancePerTest, Matchers, FunSpec}
+import org.scalatest.{FunSpec, Matchers, OneInstancePerTest}
 
 class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
 

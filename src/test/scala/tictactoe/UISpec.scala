@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, FunSpec}
 import scala.collection.mutable.ArrayBuffer
 
 class UISpec extends FunSpec with Matchers {
-  val ui = new UI
+  val ui = new ConsoleUI(Array[String]())
   
   describe("UI") {
     it("returns true if token already exists") {

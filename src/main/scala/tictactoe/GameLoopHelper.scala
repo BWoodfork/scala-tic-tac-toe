@@ -1,8 +1,10 @@
 package tictactoe
 
+import tictactoe.Game.Players.GamePlayer
+
 class GameLoopHelper(players: Array[GamePlayer]) {
 
-  def takeTurn = {
+  def takeTurn() = {
     _playerIncrementer += 1
   }
   
