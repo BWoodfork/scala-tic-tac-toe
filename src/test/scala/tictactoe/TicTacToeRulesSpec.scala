@@ -255,7 +255,7 @@ class TicTacToeRulesSpec extends FunSpec with OneInstancePerTest with Matchers {
                                  "-", "-", "-", "-",
                                  "-", "-", "-", "-")
       val rules = new TicTacToeRules(boardStructure)
-      
+
       rules.allWinningIndexCombinations() should be (Array( Array(0, 1, 2, 3),
                                                             Array(4, 5, 6, 7),
                                                             Array(8, 9, 10, 11),

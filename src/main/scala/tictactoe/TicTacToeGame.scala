@@ -32,7 +32,7 @@ class TicTacToeGame(rules: TicTacToeRules, boardStructure: Array[String], presen
   override def validMove_?(index: Int): Boolean = {
     rules.validMove_?(index)
   }
-  
+
   override def winningToken() = {
     rules.winningToken(boardStructure)
   }

@@ -18,7 +18,7 @@ object UIMessages {
   def colorStringBlue(token: String) = {
     Console.GREEN + token + Console.RESET
   }
-  
+
   def colorStringRed(token: String) = {
     Console.RED + token + Console.RESET
   }

@@ -25,21 +25,21 @@ class TicTacToeRules(boardStructure: Array[String]) {
   def winningSet(boardStructure: Array[String]) = {
     getMultipleComboSet(allWinningIndexCombinations(), boardStructure).filter(combo => winningCombination_?(combo))
   }
-  
+
   def tieGame_?(boardStructure: Array[String]) = {
     allSpacesFilled_?(boardStructure) && winningSet(boardStructure).size == 0
   }
-  
+
   def gameOver_?(boardStructure: Array[String]) = {
     tieGame_?(boardStructure) || winningSet(boardStructure).size >= 1
   }
-  
+
   def winningToken(boardStructure: Array[String]) = {
     if (winningSet(boardStructure).size >= 1) {
       winningSet(boardStructure).head.head
     } else UIMessages.NoWinningToken
   }
-  
+
   def allWinningIndexCombinations() = {
     rowIndices() ++ columnIndices() ++ leftAndRightDiagonalIndices
   }
@@ -63,14 +63,14 @@ class TicTacToeRules(boardStructure: Array[String]) {
 
   private def rightDiagonalIndices() = {
     val indicesWithoutLast = indices.init
-    
+
     indicesWithoutLast.groupBy(_ % (size - 1) == 0)(true).tail
   }
 
   private def transpose_indices(collection: Array[Array[Int]]) = {
     collection.transpose
   }
-  
+
   private val size = math.sqrt(boardStructure.size).toInt
   private val indices = boardStructure.indices.toArray
 }

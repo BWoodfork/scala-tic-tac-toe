@@ -11,7 +11,7 @@ class Board(size: Int) {
   def spaceFilled_?(spot: Int, boardStructure: Array[String]) = {
     boardStructure(spot) != "-"
   }
-  
+
   def fillSpace(index: Int, token: String, boardStructure: Array[String]) = {
     boardStructure.update(index, token)
     boardStructure
@@ -20,7 +20,7 @@ class Board(size: Int) {
   def oddNumberEmptySpaces_?(boardStructure: Array[String]) = {
     boardStructure.count(_ == "-") % 2 != 0
   }
-  
+
   def spotEmpty_?(index: Int, token: String, boardStructure: Array[String]) = {
     boardStructure(index) == "-"
   }

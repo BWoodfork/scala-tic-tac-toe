@@ -14,7 +14,7 @@ class BoardPresenterSpec extends FunSpec with Matchers {
                                                                          "3", "4", "5",
                                                                          "6", "7", "8"))
     }
-    
+
     it("separates the rows of the board") {
       val board_state = Array("X", "-", "O", "-", "-", "-", "-", "-", "-")
       val presenter = new BoardPresenter(board_state)

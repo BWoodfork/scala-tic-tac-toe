@@ -33,7 +33,7 @@ class GameLoop(game: Game, players: Array[GamePlayer]) {
         }
       }
     }
-    
+
     game.renderBoard()
     ConsoleUI.sendMessage(UIMessages.WinningToken + game.winningToken)
   }

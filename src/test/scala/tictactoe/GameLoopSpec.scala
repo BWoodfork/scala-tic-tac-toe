@@ -38,7 +38,7 @@ class GameLoopSpec extends FunSpec with Matchers with OneInstancePerTest {
       testGame.setRunning(true)
       testGame.setRunning(true)
       testGame.setRunning(false)
-      
+
       gameLoop.run()
 
       assert(testGame.numberOfUpdates == 3)
@@ -52,22 +52,22 @@ class GameLoopSpec extends FunSpec with Matchers with OneInstancePerTest {
 
       assert(testGame.numberOfRenders == 2)
     }
-    
+
     it("updates spaces, given a move") {
       testGame.setRunning(true)
       testGame.setRunning(false)
-      val boardStructure = Array("-", "-", "-", 
+      val boardStructure = Array("-", "-", "-",
                                  "-", "-", "-",
                                  "-", "-", "-")
 
       testGame.update(0, "X", boardStructure)
-      
+
       boardStructure should be (Array("X", "-", "-",
                                      "-", "-", "-",
                                      "-", "-", "-"))
     }
   }
-  
+
   class TestPlayer extends GamePlayer {
     override def getMove(): Int = {
       0
