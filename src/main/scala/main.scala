@@ -1,6 +1,5 @@
 import tictactoe.Board.{BoardPresenter, Board}
 import tictactoe.Game.Players.PlayerFactory
-import tictactoe.Game.GameLoop
 import tictactoe._
 
 object Main extends {
