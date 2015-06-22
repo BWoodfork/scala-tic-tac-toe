@@ -12,7 +12,7 @@ object UIMessages {
   val NoWinningToken = "There wasn't a winner this time =("
   val BigNewLines = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
   val ShortNewLines = "\n\n\n\n\n\n\n"
-  val WinningToken = "GAME OVER. Congratulations to player => "
+  val WinningToken = "GAME OVER. Congratulations to the winner, player => "
   val NumberedSpace = "ENTER A NUMBERED SPACE TO FILL IT WITH YOUR TOKEN"
 
   def colorStringBlue(token: String) = {

@@ -21,6 +21,7 @@ class ConsoleUI(args: Array[String]) {
     numberOfPlayers_=(args.head.toInt)
 
     ConsoleUI.sendMessage(UIMessages.BigNewLines)
+    
     while (playerTokens.size < 1){
       ConsoleUI.sendMessage(UIMessages.Player1Token)
       val token1 = ConsoleUI.getInput().toUpperCase()

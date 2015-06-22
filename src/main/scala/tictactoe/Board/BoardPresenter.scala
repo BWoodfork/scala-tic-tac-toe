@@ -9,11 +9,8 @@ class BoardPresenter(boardStructure: Array[String]) {
   def getIndicesOrTokens(board: Array[String]) = {
     val indicesAndTokens = new ArrayBuffer[String]
 
-    for(spotNum <- board.indices) {
-      if (board(spotNum) == "-")
-        indicesAndTokens += spotNum.toString
-      else indicesAndTokens += board(spotNum)
-    }
+    board.indices.foreach(spotNum => if (board(spotNum) == "-") 
+      indicesAndTokens += spotNum.toString else indicesAndTokens += board(spotNum))
 
     indicesAndTokens
   }
