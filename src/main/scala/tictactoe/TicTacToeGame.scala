@@ -16,7 +16,7 @@ class TicTacToeGame(rules: TicTacToeRules, board: Board, presenter: BoardPresent
   }
 
   override def renderBoard(): Unit = {
-    presenter.present(boardStructure)
+    presenter.present(boardStructure, currentToken())
   }
 
   override def currentToken(): String = {

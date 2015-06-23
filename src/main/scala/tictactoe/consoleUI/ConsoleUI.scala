@@ -2,6 +2,7 @@ package tictactoe.consoleUI
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.StdIn
+import scala.util.control.Breaks._
 
 object ConsoleUI {
   def sendMessage(message: String) = {
@@ -24,16 +25,26 @@ class ConsoleUI(args: Array[String]) {
 
     while (playerTokens.size < 1){
       ConsoleUI.sendMessage(UIMessages.Player1Token)
-      val token1 = ConsoleUI.getInput().toUpperCase()
-      if (validTokenLength_?(token1)) playerTokens += token1
-      if (_numberOfPlayers == 1) playerTokens += getComputerToken(token1)
+
+      breakable(
+        while (true) {
+          _token1 = ConsoleUI.getInput().toUpperCase()
+
+          if (validTokenLength_?(_token1)) {
+            playerTokens += _token1
+            break()
+          }
+        }
+      )
+
+      if (_numberOfPlayers == 1) playerTokens += getComputerToken(playerTokens(0))
     }
 
     while (playerTokens.size < 2) {
       ConsoleUI.sendMessage(UIMessages.Player2Token)
-      val token2 = ConsoleUI.getInput().toUpperCase()
-      if (validTokenLength_?(token2) && !tokenExists_?(playerTokens, token2)) {
-        playerTokens += token2
+      _token2 = ConsoleUI.getInput().toUpperCase()
+      if (validTokenLength_?(_token2) && !tokenExists_?(playerTokens, _token2)) {
+        playerTokens += _token2
       }
     }
 
@@ -65,4 +76,6 @@ class ConsoleUI(args: Array[String]) {
   }
 
   private var _numberOfPlayers = 0
+  private var _token1 = ""
+  private var _token2 = ""
 }

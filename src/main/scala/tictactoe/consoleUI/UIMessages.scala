@@ -9,11 +9,12 @@ object UIMessages {
   val InvalidToken = "Invalid token type. Please enter a letter from the alphabet."
   val TokenTaken = "The requested token has already been chosen. Please choose another token."
   val HowManyPlayers = "How many players are playing this game?"
-  val NoWinningToken = "There wasn't a winner this time =("
+  val NoWinningToken = "Tie Game. You're Both Winners! =)"
   val BigNewLines = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
   val ShortNewLines = "\n\n\n\n\n\n\n"
   val WinningToken = "GAME OVER. Congratulations to the winner, player => "
   val NumberedSpace = "ENTER A NUMBERED SPACE TO FILL IT WITH YOUR TOKEN"
+  val VerticalLine = "______________"
 
   def colorStringBlue(token: String) = {
     Console.GREEN + token + Console.RESET
@@ -21,5 +22,9 @@ object UIMessages {
 
   def colorStringRed(token: String) = {
     Console.RED + token + Console.RESET
+  }
+  
+  def colorStringYellow(token: String) = {
+    Console.YELLOW + token + Console.RESET
   }
 }

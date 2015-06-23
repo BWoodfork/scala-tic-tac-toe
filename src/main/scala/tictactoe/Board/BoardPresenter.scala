@@ -2,34 +2,47 @@ package tictactoe.board
 
 import tictactoe.consoleUI.{ConsoleUI, UIMessages}
 
-import scala.collection.mutable.ArrayBuffer
-
 class BoardPresenter(boardStructure: Array[String]) {
 
-  def getIndicesOrTokens(board: Array[String]) = {
-    val indicesAndTokens = new ArrayBuffer[String]
+  val boardSize = math.sqrt(boardStructure.size).toInt
+  
+  def makeRows(index: Int) = {
+    val sqrtOfBoard = math.sqrt(boardStructure.size).toInt
+    val builder = new StringBuilder
 
-    board.indices.foreach(spotNum => if (board(spotNum) == "-")
-      indicesAndTokens += spotNum.toString else indicesAndTokens += board(spotNum))
+    if (index % sqrtOfBoard == 0 && index != 0) {
+      builder.append("\n" + ("---" * sqrtOfBoard) + "\n")
+    } else if (index == 0) {
+      builder.append("")
+    } else builder.append(" | ")
 
-    indicesAndTokens
+    builder.toString()
   }
 
-  def separateRows(boardState: Array[String]) = {
-    val rootOfBoardSize = math.sqrt(boardState.size).toInt
-
-    getIndicesOrTokens(boardState).grouped(rootOfBoardSize).toArray
+  def displaySpot(index: Int, spot: String) = {
+    if (spot == "-") index.toString else spot
   }
 
-  def formatBoard(boardState: Array[String]) = {
-    separateRows(boardState)
-      .foreach(row => println(row(0) + " | " + row(1) + " | " + row(2) + "\n----------"))
+  def formatBoard(boardStructure: Array[String]): String = {
+    val builder = new StringBuilder
+    
+    boardStructure.zipWithIndex.foreach{ case(spot, index) => builder.append(makeRows(index).concat(displaySpot(index, spot)))}
+    builder.toString()
   }
 
-  def present(boardState: Array[String]) = {
+  def present(boardState: Array[String], token: String) = {
     ConsoleUI.sendMessage(UIMessages.ShortNewLines)
-    formatBoard(boardStructure)
+    ConsoleUI.sendMessage(UIMessages.colorStringYellow(UIMessages.VerticalLine) + "\n")
+    ConsoleUI.sendMessage(currentTurn(token))
+    
+    ConsoleUI.sendMessage(formatBoard(boardStructure))
+    
+    ConsoleUI.sendMessage(UIMessages.colorStringYellow(UIMessages.VerticalLine) + "\n")
     ConsoleUI.sendMessage(UIMessages.colorStringBlue(UIMessages.NumberedSpace))
     ConsoleUI.sendMessage(UIMessages.BigNewLines)
+  }
+
+  private def currentTurn(token: String) = {
+    "PLAYER  " + token + "  IT'S YOUR TURN\n"
   }
 }
