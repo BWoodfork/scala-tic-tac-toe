@@ -1,6 +1,6 @@
 package tictactoe.Game.Players
 
-import tictactoe.Board.Board
+import tictactoe.board.Board
 import tictactoe.{Game, TicTacToeRules}
 
 class PlayerFactory(boardStructure: Array[String], rules: TicTacToeRules, board: Board, game: Game) {

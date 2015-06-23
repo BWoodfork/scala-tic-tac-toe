@@ -1,4 +1,4 @@
-package tictactoe.Board
+package tictactoe.board
 
 import org.scalatest.{FunSpec, Matchers}
 

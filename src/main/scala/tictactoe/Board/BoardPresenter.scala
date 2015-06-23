@@ -1,6 +1,6 @@
-package tictactoe.Board
+package tictactoe.board
 
-import tictactoe.{ConsoleUI, UIMessages}
+import tictactoe.consoleUI.{ConsoleUI, UIMessages}
 
 import scala.collection.mutable.ArrayBuffer
 

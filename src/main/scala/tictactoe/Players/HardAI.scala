@@ -1,6 +1,6 @@
 package tictactoe.Game.Players
 
-import tictactoe.Board.Board
+import tictactoe.board.Board
 import tictactoe.{Game, TicTacToeRules}
 
 class HardAI(rules: TicTacToeRules, board: Board, boardStructure: Array[String], game: Game) extends GamePlayer {

@@ -1,20 +1,14 @@
 package tictactoe
 
-import tictactoe.Board.BoardPresenter
+import tictactoe.board.{Board, BoardPresenter}
+import tictactoe.consoleUI.UIMessages
 
 import scala.collection.mutable.ArrayBuffer
 
-class TicTacToeGame(rules: TicTacToeRules, boardStructure: Array[String], presenter: BoardPresenter, tokens: ArrayBuffer[String]) extends Game {
+class TicTacToeGame(rules: TicTacToeRules, board: Board, presenter: BoardPresenter, tokens: ArrayBuffer[String]) extends Game {
 
   def updateBoard(index: Int, token: String) = {
-    try {
-      boardStructure.update(index, token)
-    } catch {
-      case ex: ArrayIndexOutOfBoundsException => {
-        ConsoleUI.sendMessage(UIMessages.InvalidLength)
-      }
-    }
-    boardStructure
+    board.fillSpace(index, token, boardStructure)
   }
 
   override def isRunning: Boolean = {
@@ -26,7 +20,7 @@ class TicTacToeGame(rules: TicTacToeRules, boardStructure: Array[String], presen
   }
 
   override def currentToken(): String = {
-    if (boardStructure.count(_ == "-") % 2 != 0) UIMessages.colorStringBlue(tokens(0)) else  UIMessages.colorStringRed(tokens(1))
+    if (board.oddNumberEmptySpaces_?(boardStructure)) UIMessages.colorStringBlue(tokens(0)) else UIMessages.colorStringRed(tokens(1))
   }
 
   override def validMove_?(index: Int): Boolean = {
@@ -36,4 +30,6 @@ class TicTacToeGame(rules: TicTacToeRules, boardStructure: Array[String], presen
   override def winningToken() = {
     rules.winningToken(boardStructure)
   }
+
+  private val boardStructure = board.spaces
 }

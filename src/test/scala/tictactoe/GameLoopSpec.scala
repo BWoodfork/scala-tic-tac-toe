@@ -1,9 +1,8 @@
 package tictactoe
 
 import org.scalatest.{OneInstancePerTest, Matchers, FunSpec}
-import tictactoe.Board.Board
+import tictactoe.board.Board
 import tictactoe.Game.Players.GamePlayer
-import tictactoe.GameLoop
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer

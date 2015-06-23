@@ -1,7 +1,7 @@
-package tictactoe.Players
+package tictactoe.players
 
 import org.scalatest.{FunSpec, Matchers}
-import tictactoe.Board.{BoardPresenter, Board}
+import tictactoe.board.{BoardPresenter, Board}
 import tictactoe.Game.Players.HardAI
 import tictactoe.{TicTacToeGame, TicTacToeRules}
 
@@ -20,7 +20,7 @@ class HardAISpec extends FunSpec with Matchers {
 
       val rules = new TicTacToeRules(boardStructure)
       val presenter = new BoardPresenter(boardStructure)
-      val game = new TicTacToeGame(rules, boardStructure, presenter, tokens)
+      val game = new TicTacToeGame(rules, board, presenter, tokens)
       val ai = new HardAI(rules, board, boardStructure, game)
 
 
@@ -34,7 +34,7 @@ class HardAISpec extends FunSpec with Matchers {
 
       val rules = new TicTacToeRules(boardStructure)
       val presenter = new BoardPresenter(boardStructure)
-      val game = new TicTacToeGame(rules, boardStructure, presenter, tokens)
+      val game = new TicTacToeGame(rules, board, presenter, tokens)
       val ai = new HardAI(rules, board, boardStructure, game)
 
 
@@ -48,7 +48,7 @@ class HardAISpec extends FunSpec with Matchers {
 
       val rules = new TicTacToeRules(boardStructure)
       val presenter = new BoardPresenter(boardStructure)
-      val game = new TicTacToeGame(rules, boardStructure, presenter, tokens)
+      val game = new TicTacToeGame(rules, board, presenter, tokens)
       val ai = new HardAI(rules, board, boardStructure, game)
 
 
@@ -62,7 +62,7 @@ class HardAISpec extends FunSpec with Matchers {
 
       val rules = new TicTacToeRules(boardStructure)
       val presenter = new BoardPresenter(boardStructure)
-      val game = new TicTacToeGame(rules, boardStructure, presenter, tokens)
+      val game = new TicTacToeGame(rules, board, presenter, tokens)
       val ai = new HardAI(rules, board, boardStructure, game)
 
 
@@ -76,7 +76,7 @@ class HardAISpec extends FunSpec with Matchers {
 
       val rules = new TicTacToeRules(boardStructure)
       val presenter = new BoardPresenter(boardStructure)
-      val game = new TicTacToeGame(rules, boardStructure, presenter, tokens)
+      val game = new TicTacToeGame(rules, board, presenter, tokens)
       val ai = new HardAI(rules, board, boardStructure, game)
 
       assert(ai.getMove() == 8)

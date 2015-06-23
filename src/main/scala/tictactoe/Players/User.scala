@@ -1,6 +1,6 @@
 package tictactoe.Game.Players
 
-import tictactoe.ConsoleUI
+import tictactoe.consoleUI.ConsoleUI
 
 class User() extends GamePlayer {
   def getMove() = {

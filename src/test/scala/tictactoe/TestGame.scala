@@ -1,7 +1,5 @@
 package tictactoe
 
-import tictactoe.Game
-
 class TestGame extends Game {
   override def renderBoard(): Unit = ???
 

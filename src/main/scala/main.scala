@@ -1,6 +1,7 @@
-import tictactoe.Board.{BoardPresenter, Board}
+import tictactoe.board.{BoardPresenter, Board}
 import tictactoe.Game.Players.PlayerFactory
 import tictactoe._
+import tictactoe.consoleUI.ConsoleUI
 
 object Main extends {
   def main(args: Array[String]) = {
@@ -11,7 +12,7 @@ object Main extends {
     val playerTokens = UI.populateTokens()
     val rules = new TicTacToeRules(boardStructure)
     val numOfPlayers = UI.playerTotal
-    val ticTacToeGame = new TicTacToeGame(rules, boardStructure, presenter, playerTokens)
+    val ticTacToeGame = new TicTacToeGame(rules, board, presenter, playerTokens)
     val factory = new PlayerFactory(boardStructure, rules, board, ticTacToeGame)
     val players = factory.getPlayers(numOfPlayers)
     val loop = new GameLoop(ticTacToeGame, players)

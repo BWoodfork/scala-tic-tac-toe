@@ -1,5 +1,7 @@
 package tictactoe
 
+import tictactoe.consoleUI.UIMessages
+
 class TicTacToeRules(boardStructure: Array[String]) {
 
   def validMove_?(index: Int) = {

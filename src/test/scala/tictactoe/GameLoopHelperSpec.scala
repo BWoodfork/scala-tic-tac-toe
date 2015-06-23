@@ -1,9 +1,8 @@
 package tictactoe
 
 import org.scalatest.FunSpec
-import tictactoe.Board.Board
+import tictactoe.board.Board
 import tictactoe.Game.Players.{HardAI, User, GamePlayer}
-import tictactoe.GameLoopHelper
 
 class GameLoopHelperSpec extends FunSpec {
   val board = new Board(3)

@@ -1,4 +1,4 @@
-package tictactoe.Board
+package tictactoe.board
 
 import org.scalatest.{FunSpec, Matchers, OneInstancePerTest}
 
@@ -65,13 +65,13 @@ class BoardSpec extends FunSpec with Matchers with OneInstancePerTest {
       it("returns true if spot on board is empty") {
         val boardStructure = Array("-")
 
-        assert(board.spotEmpty_?(0, "X", boardStructure))
+        assert(board.spotEmpty_?(0, boardStructure))
       }
 
       it("returns false if spot on board is not empty") {
         val boardStructure = Array("X")
 
-        assert(!board.spotEmpty_?(0, "X", boardStructure))
+        assert(!board.spotEmpty_?(0, boardStructure))
       }
 
       it("returns true if all spaces are filled with tokens") {

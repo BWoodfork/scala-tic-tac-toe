@@ -1,4 +1,4 @@
-package tictactoe
+package tictactoe.consoleUI
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.StdIn

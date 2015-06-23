@@ -1,4 +1,4 @@
-package tictactoe
+package tictactoe.consoleUI
 
 object UIMessages {
   val InvalidMove = "The requested move is invalid, please choose another."

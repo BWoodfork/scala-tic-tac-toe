@@ -1,4 +1,6 @@
-package tictactoe.Board
+package tictactoe.board
+
+import tictactoe.consoleUI.{ConsoleUI, UIMessages}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -13,7 +15,13 @@ class Board(size: Int) {
   }
 
   def fillSpace(index: Int, token: String, boardStructure: Array[String]) = {
-    boardStructure.update(index, token)
+    try {
+      boardStructure.update(index, token)
+    } catch {
+      case ex: ArrayIndexOutOfBoundsException => {
+        ConsoleUI.sendMessage(UIMessages.InvalidLength)
+      }
+    }
     boardStructure
   }
 
@@ -21,7 +29,7 @@ class Board(size: Int) {
     boardStructure.count(_ == "-") % 2 != 0
   }
 
-  def spotEmpty_?(index: Int, token: String, boardStructure: Array[String]) = {
+  def spotEmpty_?(index: Int, boardStructure: Array[String]) = {
     boardStructure(index) == "-"
   }
 

@@ -1,6 +1,7 @@
 package tictactoe
 
 import tictactoe.Game.Players.GamePlayer
+import tictactoe.consoleUI.{ConsoleUI, UIMessages}
 
 import scala.util.control.Breaks._
 

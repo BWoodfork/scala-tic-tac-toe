@@ -1,7 +1,7 @@
-package tictactoe.Players
+package tictactoe.players
 
 import org.scalatest.FunSpec
-import tictactoe.Board.Board
+import tictactoe.board.Board
 import tictactoe.Game.Players.{HardAI, PlayerFactory, User}
 import tictactoe.{TestGame, TicTacToeRules}
 
