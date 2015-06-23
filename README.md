@@ -21,17 +21,18 @@ Java 8 is recommended, but the game should run on Java 7 as well.
 
 To check your java version, `java -version` from the console.
 
+###Setup
+`git clone this repository`
+
 ###Boot Up The SBT build tool
-From the console, in the /ttt project directory, boot up SBT from console with the command `sbt`
+From the console, in the root directory of `/game-thingy`, boot up SBT from console with the command `sbt`
 
 ###Run Tic-Tac-Toe Game
-While SBT is running, enter `Run 1` or `Run 2`
+Once SBT is running, enter one of these commands from within the SBT console window:
 
-Your number choice depicts the number of players you want to play the game.
+Enter the command: `run 1` [To play against the unbeatable AI]
 
-`Run 1` will allow you to play against the unbeatable AI.
-
-`Run 2` will allow you to play against a fellow human.
+Enter the command: `run 2` [To play a human vs human game]
 
 ###Run Unit Tests
 While SBT is running, enter the command `test`, from SBT's console window.
