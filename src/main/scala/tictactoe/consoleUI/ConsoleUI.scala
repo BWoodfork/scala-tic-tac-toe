@@ -18,34 +18,15 @@ class ConsoleUI(args: Array[String]) {
 
   def populateTokens() = {
     val playerTokens = ArrayBuffer[String]()
-
     numberOfPlayers_=(args.head.toInt)
 
     ConsoleUI.sendMessage(UIMessages.BigNewLines)
 
-    while (playerTokens.size < 1){
-      ConsoleUI.sendMessage(UIMessages.Player1Token)
-
-      breakable(
-        while (true) {
-          _token1 = ConsoleUI.getInput().toUpperCase()
-
-          if (validTokenLength_?(_token1)) {
-            playerTokens += _token1
-            break()
-          }
-        }
-      )
-
-      if (_numberOfPlayers == 1) playerTokens += getComputerToken(playerTokens(0))
-    }
-
-    while (playerTokens.size < 2) {
-      ConsoleUI.sendMessage(UIMessages.Player2Token)
-      _token2 = ConsoleUI.getInput().toUpperCase()
-      if (validTokenLength_?(_token2) && !tokenExists_?(playerTokens, _token2)) {
-        playerTokens += _token2
-      }
+    if (_numberOfPlayers == 1) {
+      populateSinglePlayerTokens(playerTokens)
+    } else if (_numberOfPlayers == 2) {
+      populateSinglePlayerTokens(playerTokens)
+      populateTwoPlayerTokens(playerTokens)
     }
 
     playerTokens
@@ -63,6 +44,35 @@ class ConsoleUI(args: Array[String]) {
       ConsoleUI.sendMessage(UIMessages.InvalidLength)
       false
     } else true
+  }
+  
+  private def populateSinglePlayerTokens(playerTokens: ArrayBuffer[String]) = {
+    while (playerTokens.size < 1){
+      ConsoleUI.sendMessage(UIMessages.Player1Token)
+
+      breakable(
+        while (true) {
+          _token1 = ConsoleUI.getInput().toUpperCase()
+
+          if (validTokenLength_?(_token1)) {
+            playerTokens += _token1
+            break()
+          }
+        }
+      )
+      if (_numberOfPlayers == 1) playerTokens += getComputerToken(playerTokens(0))
+    }
+  }
+
+  private def populateTwoPlayerTokens(playerTokens: ArrayBuffer[String]) = {
+    while (playerTokens.size < 2) {
+      ConsoleUI.sendMessage(UIMessages.Player2Token)
+      _token2 = ConsoleUI.getInput().toUpperCase()
+      
+      if (validTokenLength_?(_token2) && !tokenExists_?(playerTokens, _token2)) {
+        playerTokens += _token2
+      }
+    }
   }
 
   private def numberOfPlayers_=(int:Int) = {
