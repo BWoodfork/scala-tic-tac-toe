@@ -14,6 +14,8 @@ object UIMessages {
   val ShortNewLines = "\n\n\n\n\n\n\n"
   val WinningToken = "GAME OVER. Congratulations to the winner, player => "
   val NumberedSpace = "ENTER A NUMBERED SPACE TO FILL IT WITH YOUR TOKEN"
+  val TokenExists = "Both players cannot use the same token"
+  val InvalidTokenLength = "Invalid token length. Only 1 character tokens are valid."
   val VerticalLine = "______________"
 
   def colorStringBlue(token: String) = {

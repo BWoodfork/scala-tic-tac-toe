@@ -11,7 +11,7 @@ class TicTacToeGameSpec extends FunSpec {
       val boardStructure = Array("-", "-", "-",
                                  "-", "-", "-",
                                  "-", "-", "-")
-      val tokens = ArrayBuffer[String]("X", "O")
+      val tokens = Array[String]("X", "O")
       val presenter = new BoardPresenter(boardStructure)
       val board = new Board(3)
       val rules = new TicTacToeRules(boardStructure)
@@ -23,7 +23,7 @@ class TicTacToeGameSpec extends FunSpec {
     it("returns second token when board count is even") {
       val boardStructure = Array("X", "O", "-")
 
-      val tokens = ArrayBuffer[String]("O", "X")
+      val tokens = Array[String]("O", "X")
       val presenter = new BoardPresenter(boardStructure)
       val rules = new TicTacToeRules(boardStructure)
       val board = new Board(3)

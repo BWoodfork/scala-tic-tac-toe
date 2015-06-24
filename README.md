@@ -1,5 +1,5 @@
 ###Scala Tic-Tac-Toe
-This is my unbeatable Tic-Tac-Toe game written in Scala.
+This is an unbeatable Tic-Tac-Toe game written in Scala.
 
 The game provides the option to play human vs human or human vs computer.
 
@@ -25,16 +25,31 @@ To check your java version, `java -version` from the console.
 `git clone this repository`
 
 ###Boot Up The SBT build tool
-From the console, in the root directory of `/game-thingy`, boot up SBT from console with the command `sbt`
+From the console, cd into the root directory of `/game-thingy`
+
+Boot up SBT:
+
+`sbt`
 
 ###Run Tic-Tac-Toe Game
-Once SBT is running, enter one of these commands from within the SBT console window:
+After SBT has booted up. To play a game, simply enter `run` (while in the SBT console window) followed by the number of players and the player tokens.
 
-Enter the command: `run 1` [To play against the unbeatable AI]
+Example Commands:
 
-Enter the command: `run 2` [To play a human vs human game]
+`run 1 o x` [To play against the unbeatable AI]
+
+`run 2 o x` [To play a human vs human game]
+
+The first token has the first move. You substitute the `x` or `o` tokens with any other letters you wish as well.
 
 ###Run Unit Tests
-While SBT is running, enter the command `test`, from SBT's console window.
+
+Boot up SBT (if it isn't running already):
+
+`sbt`
+
+Run Specs:
+
+`test`
 
 To run specs in Intellij, right click on the `test/scala` directory and click `Run Scalatests`.

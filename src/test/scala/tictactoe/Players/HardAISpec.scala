@@ -9,7 +9,7 @@ import scala.collection.mutable.ArrayBuffer
 
 class HardAISpec extends FunSpec with Matchers {
 
-  val tokens = ArrayBuffer[String]("X", "O")
+  val tokens = Array[String]("X", "O")
   val board = new Board(3)
 
   describe("HardAI") {

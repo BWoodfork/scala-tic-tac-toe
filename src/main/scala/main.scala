@@ -5,13 +5,13 @@ import tictactoe.consoleUI.ConsoleUI
 
 object Main extends {
   def main(args: Array[String]) = {
+    val parser = new ArgsParser(args)
     val board = new Board(3)
     val boardStructure = board.spaces
     val presenter = new BoardPresenter(boardStructure)
-    val UI = new ConsoleUI(args)
-    val playerTokens = UI.populateTokens()
+    val playerTokens = parser.getPlayerTokens
     val rules = new TicTacToeRules(boardStructure)
-    val numOfPlayers = UI.playerTotal
+    val numOfPlayers = parser.playerTotal
     val ticTacToeGame = new TicTacToeGame(rules, board, presenter, playerTokens)
     val factory = new PlayerFactory(boardStructure, rules, board, ticTacToeGame)
     val players = factory.getPlayers(numOfPlayers)

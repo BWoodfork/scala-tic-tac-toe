@@ -5,7 +5,7 @@ import tictactoe.consoleUI.UIMessages
 
 import scala.collection.mutable.ArrayBuffer
 
-class TicTacToeGame(rules: TicTacToeRules, board: Board, presenter: BoardPresenter, tokens: ArrayBuffer[String]) extends Game {
+class TicTacToeGame(rules: TicTacToeRules, board: Board, presenter: BoardPresenter, tokens: Array[String]) extends Game {
 
   def updateBoard(index: Int, token: String) = {
     board.fillSpace(index, token, boardStructure)
